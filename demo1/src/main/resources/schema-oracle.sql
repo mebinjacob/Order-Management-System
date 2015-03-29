@@ -2,12 +2,12 @@
 --This creates the queries to delete the tables..
 select 'drop table '||table_name||' cascade constraints;' from user_tables;
 
-create table ROLE(
+CREATE TABLE ROLE(
  role_id integer PRIMARY KEY,
  role_name varchar(50)
 );
 
-create table CASES(
+CREATE TABLE CASES(
  case_id integer PRIMARY KEY,
  case_type varchar(50) NOT NULL,
  status varchar(20) NOT NULL,
@@ -21,7 +21,7 @@ create table CASES(
 
 
 
-create table IMGMT_USER(
+CREATE TABLE IMGMT_USER(
     user_id integer PRIMARY KEY,
     first_name varchar(50) NOT NULL,
     middle_name varchar(50),
@@ -37,28 +37,28 @@ create table IMGMT_USER(
     FOREIGN KEY(role_id) REFERENCES ROLE(role_id)
   );
 
-create table BRAND_MANAGER
+CREATE TABLE BRAND_MANAGER
   (
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
   );
 
-create table STORE_MANAGER
+CREATE TABLE STORE_MANAGER
   (
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
   );
-create table INVENTORY_MANAGER(
+CREATE TABLE INVENTORY_MANAGER(
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
   );
 
-create table ADMIN(
+CREATE TABLE ADMIN(
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
   );
 
-  create table PAYMENT(
+  CREATE TABLE PAYMENT(
     bill_id integer PRIMARY KEY,
     bill_date date NOT NULL,
     total NUMBER(30,2) NOT NULL,
@@ -73,7 +73,7 @@ create table ADMIN(
  
 
 
- create table DISCOUNT(
+ CREATE TABLE DISCOUNT(
   discount_id integer PRIMARY KEY,
   start_date date,
   end_date date,
@@ -87,7 +87,7 @@ create table ADMIN(
 
 
 
-   create table ITEM_STORE(
+   CREATE TABLE ITEM_STORE(
     store_id integer PRIMARY KEY,
     user_id integer,
     store_type CHAR(1) NOT NULL,
@@ -98,7 +98,7 @@ create table ADMIN(
     FOREIGN KEY (user_id) REFERENCES STORE_MANAGER(user_id)
   );
   
-    create table ITEM_ORDER(
+    CREATE TABLE ITEM_ORDER(
     order_id integer PRIMARY KEY,
     description varchar(100),
     order_date date,
@@ -108,7 +108,7 @@ create table ADMIN(
     FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id)
   );
 
-   create table ITEM(
+   CREATE TABLE ITEM(
   item_id integer PRIMARY KEY,
   active char(1) NOT NULL,
   selling_price NUMBER(10,2),
@@ -121,7 +121,7 @@ create table ADMIN(
   );
   
     
- create table ITEM_DETAIL(
+ CREATE TABLE ITEM_DETAIL(
     item_id integer PRIMARY KEY,
     cost_price NUMBER(10,2) NOT NULL,
     exp_date date,
@@ -133,20 +133,20 @@ create table ADMIN(
   );
   
 
-  create table BRAND(
+  CREATE TABLE BRAND(
     brand_id integer PRIMARY KEY,
     brand_name varchar(50) NOT NULL UNIQUE,
     user_id integer NOT NULL,
     FOREIGN KEY(user_id) REFERENCES BRAND_MANAGER(user_id)
 );
 
-create table "CATEGORY"(
+CREATE TABLE "CATEGORY"(
    cat_id integer PRIMARY KEY,
    cat_name varchar(20) NOT NULL,
    sub_category varchar(20)
   );
 
-  create table BELONGS_TO(
+  CREATE TABLE BELONGS_TO(
     brand_id integer,
     category_id integer,
     PRIMARY KEY(brand_id, category_id),

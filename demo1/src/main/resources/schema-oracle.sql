@@ -1,3 +1,7 @@
+
+--This creates the queries to delete the tables..
+select 'drop table '||table_name||' cascade constraints;' from user_tables;
+
 create table ROLE(
  role_id integer PRIMARY KEY,
  role_name varchar(50)
@@ -104,7 +108,7 @@ create table ADMIN(
     FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id)
   );
 
-    create table ITEM(
+   create table ITEM(
   item_id integer PRIMARY KEY,
   active char(1) NOT NULL,
   selling_price NUMBER(10,2),
@@ -116,6 +120,7 @@ create table ADMIN(
   FOREIGN KEY(order_id) REFERENCES ITEM_ORDER(order_id)
   );
   
+    
  create table ITEM_DETAIL(
     item_id integer PRIMARY KEY,
     cost_price NUMBER(10,2) NOT NULL,

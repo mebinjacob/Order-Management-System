@@ -1,4 +1,4 @@
-package DAO;
+package dbms.dao;
 
 import java.util.Date;
 

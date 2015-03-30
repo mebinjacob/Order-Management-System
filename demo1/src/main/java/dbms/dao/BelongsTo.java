@@ -1,4 +1,4 @@
-package DAO;
+package dbms.dao;
 
 public class BelongsTo {
 	private int id;

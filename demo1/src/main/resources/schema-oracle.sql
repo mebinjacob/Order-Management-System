@@ -154,3 +154,10 @@ CREATE TABLE "CATEGORY"(
     FOREIGN KEY(category_id) REFERENCES CATEGORY(cat_id)
  );
   
+ create table review(
+ review_id integer primary KEY not null,
+ sku integer,
+ rating integer,
+ title varchar(100),
+ comments varchar(100)
+);

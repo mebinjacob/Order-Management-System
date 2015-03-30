@@ -1,7 +1,6 @@
-package DAO;
+package dbms.dao;
 
-public class StoreManager {
-
+public class BrandManager {
 	private int userId;
 
 	public int getUserId() {
@@ -12,5 +11,4 @@ public class StoreManager {
 		this.userId = userId;
 	}
 	
-
 }

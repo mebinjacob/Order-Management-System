@@ -1,4 +1,4 @@
-package DAO;
+package dbms.dao;
 
 public class Category {
 	private int id;

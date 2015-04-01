@@ -9,8 +9,6 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
@@ -18,10 +16,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AdminService {
 
-	@Autowired
-	JdbcTemplate jdbcTemplate;
 	
-	public void test(){
+	/*public void test(){
         jdbcTemplate.execute("create table customers(" +
                 " first_name varchar(255), last_name varchar(255))");
 
@@ -33,7 +29,7 @@ public class AdminService {
                     "INSERT INTO customers(first_name,last_name) values(?,?)",
                     name[0], name[1]);
         }    
-	}
+	}*/
 
 	/*public void executeQuery() throws IOException
 	{

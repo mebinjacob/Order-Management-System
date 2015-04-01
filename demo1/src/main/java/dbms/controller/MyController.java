@@ -6,12 +6,16 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import dbms.service.AdminService;
+import dbms.service.LoginService;
 
 @Controller
 public class MyController {
 
 	@Autowired 
 	AdminService ser;	
+	
+	@Autowired
+	LoginService logService;
 
 	@RequestMapping("/login")
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
@@ -22,9 +26,11 @@ public class MyController {
 	
 	@RequestMapping("/loggedin")
 	public String loggedIn(@RequestParam(value="username") String username, @RequestParam(value="password")String password){
-		System.out.println("The username is "  );
-		System.out.println("The password is " );
-		return "index";
+
+		if(logService.login(username, password)){
+			return "index";
+		}
+		return "login";
 	}
 
 

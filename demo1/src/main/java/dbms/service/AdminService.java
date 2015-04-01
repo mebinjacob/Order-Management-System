@@ -34,6 +34,13 @@ public class AdminService {
                     name[0], name[1]);
         }    
 	}
+
+	/*public void executeQuery() throws IOException
+	{
+		String sql = "SELECT COUNTRY , COUNT(*)FROM GEO_LAKE GROUP BY COUNTRY";
+		SqlRowSet rs = jdbcTemplate.queryForRowSet(sql);
+		createPieCharts(rs, "Barchart", "D:/Piecharts.png");
+	}*/
 	
 	public void createBarChart(SqlRowSet rowSet, String charTitle, String fileLocation) throws IOException
 	{

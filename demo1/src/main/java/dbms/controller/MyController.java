@@ -22,10 +22,5 @@ public class MyController {
 	      return "login";
 		  
 	    }
-	 @RequestMapping("/Graphs")
-	 public void generateGraph() throws IOException
-	 {
-		 ser.executeQuery();
-	 }
 
 }

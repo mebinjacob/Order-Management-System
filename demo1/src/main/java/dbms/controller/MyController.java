@@ -1,8 +1,6 @@
 package dbms.controller;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import dbms.dao.Test;
 import dbms.service.AdminService;
+import dbms.service.DiscountService;
 import dbms.service.LoginService;
 
 @Controller
@@ -23,7 +21,10 @@ public class MyController {
 	
 	@Autowired
 	LoginService logService;
-
+	
+	@Autowired
+	DiscountService discountService;
+	
 	@RequestMapping("/login")
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
 		model.addAttribute("name", name);  
@@ -46,17 +47,10 @@ public class MyController {
 		return "graph";
 	}
 	
-	//for strint and int
+	//for string and int
 	@RequestMapping("/getData")
 	public @ResponseBody List<List<Object>> getSampleData(){
-		Test t = new Test();
-		t.setPoint(1);
-		List<Test> tList = new ArrayList<Test>();
-		Test t1 = new Test();
-		t.setName("Mushroom");
-		t.setPoint(1);
-		tList.add(t1);
-		
+
 		List<List<Object>> arrayList = new ArrayList<List<Object>>(); 
 		List<Object> mushroom = new ArrayList<Object>();
 		mushroom.add("Mushroom");
@@ -86,5 +80,78 @@ public class MyController {
 		arrayList.add(Pepperoni);
 		
 		return arrayList;//"[ ['Mushrooms', 3], ['Onions', 1], ['Olives', 1], ['Zucchini', 1], ['Pepperoni', 2]]";
+	}
+	
+	
+	@RequestMapping("/getPieChartData")
+	public @ResponseBody List<List<Object>> getPieChartSampleData(){
+		
+		/*
+		 * [
+          ['Age', 'Weight'],
+          [ 8,      12],
+          [ 4,      5.5],
+          [ 11,     14],
+          [ 4,      5],
+          [ 3,      3.5],
+          [ 6.5,    7]
+        ]
+		 */
+		List<List<Object>> arrayList = new ArrayList<List<Object>>(); 
+		
+		
+		List<Object> onions = new ArrayList<Object>();
+		onions.add("Age");
+		onions.add("Weight");
+		
+		List<Object> olives = new ArrayList<Object>();
+		olives.add(8);
+		olives.add(12);
+		
+		List<Object> Zucchini = new ArrayList<Object>();
+		Zucchini.add(4);
+		Zucchini.add(5.5);
+		
+		
+		List<Object> Pepperoni = new ArrayList<Object>();
+		Pepperoni.add(11);
+		Pepperoni.add(14);
+		
+		List<Object> ageAndWeight = new ArrayList<Object>();
+		ageAndWeight.add(4);
+		ageAndWeight.add(5);
+		
+		arrayList.add(onions);
+		arrayList.add(olives);
+		arrayList.add(Zucchini);
+		arrayList.add(Pepperoni);
+		arrayList.add(ageAndWeight);
+		
+		return arrayList;//"[ ['Mushrooms', 3], ['Onions', 1], ['Olives', 1], ['Zucchini', 1], ['Pepperoni', 2]]";
+	}
+	
+	
+	@RequestMapping("/getTableData")
+	public @ResponseBody List<Object> getTableData(){
+		List<Object> tableData = new ArrayList<Object>();
+		tableData.add("1");
+		tableData.add("2");
+		return tableData;
+	}
+	
+	@RequestMapping("/getDiscountedItem")
+	public @ResponseBody List<List<String>> getAllDiscountItemsGreterThan(){
+		return createRows(discountService.getAllDiscountItemsGreterThan(0));
+	}
+	
+	
+	public List<List<String>> createRows(List<String> string){
+		List<List<String>> listOfString = new ArrayList<List<String>>();
+		for(String s : string){
+			List<String> l = new ArrayList<String>();
+			l.add(s);
+			listOfString.add(l);
+		}
+		return listOfString;
 	}
 }

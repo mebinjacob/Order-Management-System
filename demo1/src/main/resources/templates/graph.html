@@ -3,10 +3,11 @@
 <head>
 <title>Order Maangement System</title>
 <link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
 <link href='http://fonts.googleapis.com/css?family=Belgrano'
 	rel='stylesheet' type='text/css' />
-<!-- jQuery file -->
-<script src="js/jquery.min.js"></script>
+<!-- jQuery file  js/jquery.min.js-->
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
 <script type="text/javascript">
 var $ = jQuery.noConflict();
@@ -21,39 +22,22 @@ $(".trigger").click(function(){
 </script>
 <!--Load the AJAX API-->
 <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/graphs.js"></script>
 <script type="text/javascript">
+
+$(document).ready(function() {
+    var t = $('#example').DataTable();
+    var counter = 1;
+ 
     
-      // Load the Visualization API and the piechart package.
-      google.load('visualization', '1.0', {'packages':['corechart']});
-      
-      // Set a callback to run when the Google Visualization API is loaded.
-      google.setOnLoadCallback(drawChart);
+    $.get("/getDiscountedItem", function(dataFromServer){
+    	t.rows.add(dataFromServer).draw();
+    });
+ 
+} );
 
-      // Callback that creates and populates a data table, 
-      // instantiates the pie chart, passes in the data and
-      // draws it.
-      function drawChart() {
-    	  var data1;
-      	   $.get("/getData", function(data){
-      		  data1 = data;
-  			   // Create the data table.
-        var data = new google.visualization.DataTable();
-        data.addColumn('string', 'Topping');
-  	   data.addColumn('number', 'blah');
-        data.addRows(data1);//[['topping', 2], ['blah', 2]]
-  	  
-
-        // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
-                       'width':400,
-                       'height':300};
-
-        // Instantiate and draw our chart, passing in some options.
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      	  }); 
-    }
-    </script>
+</script>
 </head>
 <body>
 	<div id="panelwrap">
@@ -101,6 +85,21 @@ $(".trigger").click(function(){
 
 
 					<div id="chart_div" style="width: 400; height: 300"></div>
+					<div id="piechart_div" style="width: 400; height: 300"></div>
+					<table id="example" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Column 1</th>
+							</tr>
+						</thead>
+
+						<tfoot>
+							<tr>
+								<th>Column 1</th>
+							</tr>
+						</tfoot>
+					</table>
+
 					<div class="form_sub_buttons">
 						<a href="#" class="button green">Edit selected</a> <a href="#"
 							class="button red">Delete selected</a>
@@ -269,7 +268,7 @@ $(".trigger").click(function(){
 					consectetur adipisicing elit, sed do eiusmod tempor incididunt ut
 					labore et dolore magna aliqua.</div>
 				<!--Div that will hold the pie chart-->
-				
+
 
 			</div>
 
@@ -278,9 +277,7 @@ $(".trigger").click(function(){
 		</div>
 		<!--end of center_content-->
 
-		<div class="footer">
-
-		</div>
+		<div class="footer"></div>
 
 	</div>
 

@@ -1,13 +1,15 @@
 package dbms.dao;
 
+import java.math.BigDecimal;
+
 public class Item {
 	private int itemId;
-	private char active;
-	private int sellingPrice;
+	private String active;
+	private String sellingPrice;
 	private String name;
 	private String desc;
-	private int discountId;
-	private int orderId;
+	private String discountId;
+	private String orderId;
 	
 	public int getItemId() {
 		return itemId;
@@ -15,16 +17,17 @@ public class Item {
 	public void setItemId(int itemId) {
 		this.itemId = itemId;
 	}
-	public char getActive() {
+	
+	public String getActive() {
 		return active;
 	}
-	public void setActive(char active) {
+	public void setActive(String active) {
 		this.active = active;
 	}
-	public int getSellingPrice() {
+	public String getSellingPrice() {
 		return sellingPrice;
 	}
-	public void setSellingPrice(int sellingPrice) {
+	public void setSellingPrice(String sellingPrice) {
 		this.sellingPrice = sellingPrice;
 	}
 	public String getName() {
@@ -39,16 +42,16 @@ public class Item {
 	public void setDesc(String desc) {
 		this.desc = desc;
 	}
-	public int getDiscountId() {
+	public String getDiscountId() {
 		return discountId;
 	}
-	public void setDiscountId(int discountId) {
-		this.discountId = discountId;
+	public void setDiscountId(String string) {
+		this.discountId = string;
 	}
-	public int getOrderId() {
+	public String getOrderId() {
 		return orderId;
 	}
-	public void setOrderId(int orderId) {
+	public void setOrderId(String orderId) {
 		this.orderId = orderId;
 	}
 	

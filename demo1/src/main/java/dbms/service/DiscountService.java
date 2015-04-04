@@ -2,7 +2,6 @@ package dbms.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +26,6 @@ public class DiscountService {
 				new RowMapper<String>() {
 					@Override
 					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
-						System.out.println("The result set is " + rs);
 						
 						/*List<String> itemList = new ArrayList<String>();
 						while(rs.next()){

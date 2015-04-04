@@ -36,7 +36,9 @@ $(document).ready(function() {
     });
  
 } );
-
+// Set a callback to run when the Google Visualization API is loaded.
+google.setOnLoadCallback(drawPieChart);
+google.setOnLoadCallback(drawScatterChart);
 </script>
 </head>
 <body>

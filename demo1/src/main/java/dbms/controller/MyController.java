@@ -34,10 +34,13 @@ public class MyController {
 	@RequestMapping("/loggedin")
 	public String loggedIn(@RequestParam(value="username") String username, @RequestParam(value="password")String password){
 
-		if(logService.login(username, password)){
+		if(logService.login(username, password).equals("ADMIN")){
 			return "index";
 		}
-		return "login";
+		else if(logService.login(username, password).equals("IVMGR"))
+			return "inventoryMgmt";
+		else
+			return "error";
 	}
 
 	@RequestMapping("/displayGraph")

@@ -25,7 +25,7 @@ public class InventoryManagerController {
 	
 	@RequestMapping("/viewReports")
 	public String viewReport(){
-		return "viewReports";
+		return "invmgmtviewReports";
 	}
 	
 	
@@ -34,5 +34,12 @@ public class InventoryManagerController {
 		return OrderMgmtUtils.createRows(inventoryManagerService.getProductsByCategory(1));
 		
 	}
+	
+	
+	@RequestMapping("/productListBasedOnReview")
+	public @ResponseBody List<List<? extends Object>> viewProductListBasedOnReview(){
+		return OrderMgmtUtils.createRows(inventoryManagerService.getAllProducts(1));
+	}
+	
 
 }

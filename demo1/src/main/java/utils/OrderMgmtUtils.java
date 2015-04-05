@@ -6,6 +6,9 @@ import java.util.List;
 
 public class OrderMgmtUtils {
 
+	/**
+	 * This function creates rows as is required by google charts or datatables api of jquery.
+	 */
 	public static List<List<? extends Object>> createRows(List<? extends Object> listOfobj){
 		List<List<? extends Object>> listOfString = new ArrayList<List<? extends Object>>();
 		for(Object s : listOfobj){

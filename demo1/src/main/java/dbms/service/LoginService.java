@@ -12,28 +12,26 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class LoginService {
-	
+
 	@Autowired
 	JdbcTemplate jdbcTemplate;
-	
-	@Value("${count.sql}")
-	String countSql;
-	
-	public boolean login(String username, String password){
-		
-//"SELECT COUNT(*) FROM IMGMT_USER where email= ? and passwd = ?"		
-		 List<Integer> results = jdbcTemplate.query(
-	                countSql, new Object[]{username, password},
-	                new RowMapper<Integer>() {
-	                    @Override
-	                    public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
-	                        return rs.getRow();
-	                    }
-	                });
-		 
-		 if(results.get(0) == 1)
-			 return true;
-		 
-		return false;
+
+	@Value("${login.sql}")
+	String loginSql;
+
+	public String login(String username, String password){
+
+		//"SELECT COUNT(*) FROM IMGMT_USER where email= ? and passwd = ?"		
+		List<String> results = jdbcTemplate.query(
+				loginSql, new Object[]{username, password},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return  rs.getObject(1).toString();
+					}
+				});
+
+		return results.get(0) ;
+
 	}
 }

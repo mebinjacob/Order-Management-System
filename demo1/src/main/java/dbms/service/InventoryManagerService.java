@@ -29,9 +29,35 @@ public class InventoryManagerService {
 	@Value("${invmgmtProductsByCategroy.sql}")
 	String inmgmtProductsByCategorySQl;
 
+	@Value("${invmgmtRatingGreaterThan4.sql}")
+	String productsBasedOnRating;
+	
+	
 	public List<Item> getAllProducts(int pageNo) {
 		List<Item> results = jdbcTemplate.query(
 				invmgmtProducts, new Object[]{pageNo * 500},
+				new RowMapper<Item>() {
+					@Override
+					public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+						Item item = new Item();
+//						item.setItemId(Integer.parseInt((String)rs.getObject(1)));
+						item.setActive((String)rs.getObject(2));
+						item.setSellingPrice(rs.getObject(3).toString());
+						item.setName((String)rs.getObject(4));
+						
+						item.setDiscountId(rs.getObject(6).toString());
+						item.setOrderId((String)rs.getObject(7));
+						return item;
+					}
+				});
+		return results;
+	}
+	
+	
+	public List<Item> getAllProductsBasedOnReview(int pageNo) {
+		List<Item> results = jdbcTemplate.query(
+				productsBasedOnRating, new Object[]{pageNo * 500},
 				new RowMapper<Item>() {
 					@Override
 					public Item mapRow(ResultSet rs, int rowNum) throws SQLException {

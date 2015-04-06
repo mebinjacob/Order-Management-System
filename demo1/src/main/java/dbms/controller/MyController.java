@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dbms.service.AdminService;
 import dbms.service.DiscountService;
 import dbms.service.LoginService;
+import dbms.service.storeService;
 
 @Controller
 public class MyController {
@@ -24,6 +25,9 @@ public class MyController {
 
 	@Autowired
 	DiscountService discountService;
+	
+	@Autowired
+	storeService store_service;
 
 	@RequestMapping("/login")
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
@@ -141,7 +145,30 @@ public class MyController {
 	public  String getbrandManagerData(){
 		return "brandManager";
 	}
+	@RequestMapping("/storeManager")
+	public String storeManager(){
 
+		return "storeManager";
+	}
+	
+	@RequestMapping("/getStoreItem")
+	public @ResponseBody List<List<String>> getStoreItems()
+	{
+		return store_service.selectItem_FromStore(0);
+	}
+	
+	@RequestMapping("/getStoreInventoryRequests")
+	public @ResponseBody List<List<String>> getStore_InventoryRequest()
+	{
+		return store_service.selectInventoryRequest_Store(0);
+	}
+	
+	@RequestMapping("/getStoreDiscountRequests")
+	public @ResponseBody List<List<String>> getStore_DiscountAndOffers()
+	{
+		return store_service.selectDiscountAndOffers(0);
+	}
+	
 	public List<List<String>> createRows(List<String> string){
 		List<List<String>> listOfString = new ArrayList<List<String>>();
 		for(String s : string){

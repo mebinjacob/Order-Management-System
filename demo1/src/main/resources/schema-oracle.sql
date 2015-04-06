@@ -1,4 +1,3 @@
-
 --This creates the queries to delete the tables..
 select 'drop table '||table_name||' cascade constraints;' from user_tables;
 
@@ -118,8 +117,7 @@ CREATE TABLE ADMIN(
     user_id integer not null,
     store_id integer not null,
     FOREIGN KEY(store_id) REFERENCES ITEM_STORE(store_id),
-    FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id),
-    FOREIGN KEY(item_id) REFERENCES ITEM(item_id)
+    FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id)
   );
 
    CREATE TABLE ITEM(

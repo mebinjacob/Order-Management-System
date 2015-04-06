@@ -43,6 +43,12 @@ public class MyController {
 			}
 			else if(logService.login(username, password).equals("IVMGR"))
 				return "inventoryMgmt";
+			
+			else if(logService.login(username, password).equals("BRMGR"))
+				return "brandManager";
+			else if(logService.login(username, password).equals("STMGR"))
+				return "storeManager";
+			
 				
 		}
 		return "error";

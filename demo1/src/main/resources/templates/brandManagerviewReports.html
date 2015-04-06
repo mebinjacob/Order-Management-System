@@ -1,0 +1,104 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Order Management System</title>
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link href='http://fonts.googleapis.com/css?family=Belgrano'
+	rel='stylesheet' type='text/css' />
+<!-- jQuery file  js/jquery.min.js-->
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="../../js/jquery.tabify.js" type="text/javascript"
+	charset="utf-8"></script>
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="../../js/graphs.js"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+	var $ = jQuery.noConflict();
+	$(function() {
+		//$('#tabsmenu').tabify();
+		$(".toggle_container").hide();
+		$(".trigger").click(function() {
+			$(this).toggleClass("active").next().slideToggle("slow");
+			return false;
+		});
+		var t = $('#example').DataTable();
+		$.get("/inventoryManager/productListBasedOnReview", function(
+				dataFromServer) {
+			t.rows.add(dataFromServer).draw();
+		});
+	});
+	google.setOnLoadCallback(drawInventoryMgmtPieChart);
+</script>
+<!--Load the AJAX API-->
+
+</head>
+<body>
+	<div id="panelwrap">
+
+		<div class="header">
+			<div class="title">
+				<a href="#">Order Management System - Brand Manager</a>
+			</div>
+
+			<div class="menu">
+				<ul>
+					<li><a href="/brandManager" >Main page</a></li>
+					<li><a href="/brandManager/viewReports" class="selected">View Reports</a></li>
+					<li><a href="/brandManager/addCategory">Add Category</a></li>
+				</ul>
+			</div>
+
+		</div>
+
+
+		<div class="center_content">
+
+			<div id="right_wrap">
+				<div>
+					<h2>Charts section</h2>
+					<!-- 	<div id="chart_div" style="width: 400; height: 300"></div> -->
+					<div id="ivmgmt_chart_div" style="width: 400; height: 300"></div>
+				</div>
+
+				<div>
+					<h2>Tables section</h2>
+					<div class="dataTables_wrapper">
+						<table id="example" class="display dataTable" cellspacing="0"
+							width="100%">
+							<thead>
+							<tr>
+								<th>Order Id</th>
+								<th>Item Id</th>
+								<th>Product Name</th>
+								<th>Cost Price</th>								
+								<th>Selling Price</th>
+							</tr>
+						</thead>
+
+						<tfoot>
+							<tr>
+								<th>Order Id</th>
+								<th>Item Id</th>
+								<th>Product Name</th>
+								<th>Cost Price</th>								
+								<th>Selling Price</th>
+							</tr>
+						</tfoot>
+						</table>
+					</div>
+				</div>
+			</div>
+			<div class="center_content"></div>
+
+
+
+			<div class="clear"></div>
+			<!--end of center_content-->
+
+			<div class="footer"></div>
+
+		</div>
+	</div>
+</body>
+</html>

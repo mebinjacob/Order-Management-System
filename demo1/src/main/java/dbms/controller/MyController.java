@@ -136,6 +136,11 @@ public class MyController {
 	public  String getInventoryManagerData(){
 		return "inventoryMgmt";
 	}
+	
+	@RequestMapping("/brandManager")
+	public  String getbrandManagerData(){
+		return "brandManager";
+	}
 
 	public List<List<String>> createRows(List<String> string){
 		List<List<String>> listOfString = new ArrayList<List<String>>();

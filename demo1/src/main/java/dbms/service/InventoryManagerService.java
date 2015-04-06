@@ -33,6 +33,16 @@ public class InventoryManagerService {
 	String productsBasedOnRating;
 	
 	
+	
+//	public List<Item> getOrdersAndPayment(int pageNo) {
+//		
+//	}
+	
+	public boolean saveOrder(String itemid, String quantity, String comment, String price){
+		
+		return false;
+	}
+	
 	public List<Item> getAllProducts(int pageNo) {
 		List<Item> results = jdbcTemplate.query(
 				invmgmtProducts, new Object[]{pageNo * 500},

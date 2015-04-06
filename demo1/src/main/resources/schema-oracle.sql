@@ -35,39 +35,52 @@ CREATE TABLE IMGMT_USER(
     zip_code integer,
     email varchar(20) NOT NULL,
     FOREIGN KEY(role_id) REFERENCES ROLE(role_id)
+    on delete set null
+    on update set null
   );
 
 CREATE TABLE BRAND_MANAGER
   (
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
+  on delete cascade
+  on update cascade
   );
 
 CREATE TABLE STORE_MANAGER
   (
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
+  on delete cascade
+  on update cascade
   );
 CREATE TABLE INVENTORY_MANAGER(
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
+  on delete cascade
+  on update cascade
   );
 
 CREATE TABLE ADMIN(
   user_id INTEGER PRIMARY KEY,
   FOREIGN KEY (user_id) REFERENCES IMGMT_USER(user_id)
+  on delete cascade
+  on update cascade
   );
 
+  --changed
   CREATE TABLE PAYMENT(
     bill_id integer PRIMARY KEY,
     bill_date date NOT NULL,
     total NUMBER(30,2) NOT NULL,
     bill_status varchar(20) NOT NULL,
     quantity integer not null,
+    order_id integer not null, --added
     brand_manager_id integer not null,
     inventory_manager_id integer not null,
     FOREIGN KEY(brand_manager_id) REFERENCES BRAND_MANAGER(user_id),
-    FOREIGN KEY(inventory_manager_id) REFERENCES       INVENTORY_MANAGER(user_id)
+    FOREIGN KEY(inventory_manager_id) REFERENCES  INVENTORY_MANAGER(user_id),
+    FOREIGN KEY(order_id) REFERENCES  ITEM_ORDER(order_id)
     );
   
  
@@ -105,7 +118,8 @@ CREATE TABLE ADMIN(
     user_id integer not null,
     store_id integer not null,
     FOREIGN KEY(store_id) REFERENCES ITEM_STORE(store_id),
-    FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id)
+    FOREIGN KEY(user_id) REFERENCES IMGMT_USER(user_id),
+    FOREIGN KEY(item_id) REFERENCES ITEM(item_id)
   );
 
    CREATE TABLE ITEM(

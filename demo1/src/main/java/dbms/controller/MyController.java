@@ -39,7 +39,7 @@ public class MyController {
 	public String loggedIn(@RequestParam(value="username") String username, @RequestParam(value="password")String password){
 		if(logService.login(username, password) != null){
 			if(logService.login(username, password).equals("ADMIN") ){
-				return "index";
+				return "admin";
 			}
 			else if(logService.login(username, password).equals("IVMGR"))
 				return "inventoryMgmt";

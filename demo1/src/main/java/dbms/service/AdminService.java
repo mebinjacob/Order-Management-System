@@ -2,6 +2,10 @@ package dbms.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Types;
+import java.util.List;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -9,13 +13,33 @@ import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
+import dbms.dao.Item;
+
 @Service
 public class AdminService {
 
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	
+	@Value("${adminProducts.sql}")
+	String adminProducts;
+	
+	@Value("${adminAddCategory.sql}")
+	String addCateory;
+	
+	@Value("${adminAddUser.sql}")
+	String addUser;
+	
+	@Value("${adminAddItem.sql}")
+	String addItem;
 	
 	/*public void test(){
         jdbcTemplate.execute("create table customers(" +
@@ -80,5 +104,48 @@ public class AdminService {
 		File BarChart=new File(fileLocation);              
         ChartUtilities.saveChartAsJPEG(BarChart, quality, PieChartObject,image_width,image_height); 
 		
+	}
+	
+	public List<Item> getAllProducts(int pageNo) {
+		List<Item> results = jdbcTemplate.query(
+				adminProducts, new Object[]{pageNo * 500},
+				new RowMapper<Item>() {
+					@Override
+					public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+						Item item = new Item();
+//						item.setItemId(Integer.parseInt((String)rs.getObject(1)));
+						item.setActive((String)rs.getObject(2));
+						item.setSellingPrice(rs.getObject(3).toString());
+						item.setName((String)rs.getObject(4));
+						
+						item.setDiscountId(rs.getObject(6).toString());
+						item.setOrderId((String)rs.getObject(7));
+						return item;
+					}
+				});
+		return results;
+	}
+	
+	public void addCategory(String category, String subCategory){
+		Object[] params = new Object[] { category, subCategory };
+		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR};
+		jdbcTemplate.update(addCateory, params, types);
+		System.out.println("row inserted.");
+		
+	}
+	
+	public void addUser(String firstName, String middleName, String lastName, Integer contactNumber, String password, String street, String city, String state, Integer zipCode, String email){
+		Object[] params = new Object[] {firstName, middleName, lastName, contactNumber, password, street, city, state, zipCode, email};
+		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR};
+		jdbcTemplate.update(addUser, params, types);
+		System.out.println("row inserted.");		
+	}
+	
+	public void addItem(String isActive, Double sellingPrice, String itemName, String description){
+		Object[] params = new Object[] {isActive, sellingPrice, itemName, description};
+		int[] types = new int[] { Types.VARCHAR, Types.DOUBLE, Types.VARCHAR, Types.VARCHAR};
+		jdbcTemplate.update(addItem, params, types);
+		System.out.println("row inserted.");		
 	}
 }

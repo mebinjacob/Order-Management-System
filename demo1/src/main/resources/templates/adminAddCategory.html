@@ -1,0 +1,99 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Order Management System</title>
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css"
+	href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+<link href='http://fonts.googleapis.com/css?family=Belgrano'
+	rel='stylesheet' type='text/css' />
+<!-- jQuery file  js/jquery.min.js-->
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+	var $ = jQuery.noConflict();
+	$(function() {
+		//$('#tabsmenu').tabify();
+		$(".toggle_container").hide();
+		$(".trigger").click(function() {
+			$(this).toggleClass("active").next().slideToggle("slow");
+			return false;
+		});
+	});
+</script>
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript"
+	src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/graphs.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    var t = $('#example').DataTable();
+    var counter = 1;
+ 	
+    $.get("/admin/productList", function(dataFromServer){
+    	t.rows.add(dataFromServer).draw();
+    });
+ 
+} );
+
+
+</script>
+</head>
+<body>
+	<div id="panelwrap">
+
+		<div class="header">
+			<div class="title">
+				<a href="#">Order Management System - Admin</a>
+			</div>
+
+
+
+			<div class="menu">
+				<ul>
+					<li><a href="/admin/productList" >Main page</a></li>
+					<li><a href="/admin/addCategory" class="selected">Add Category</a></li>
+					<li><a href="/admin/addUser" >Add User</a></li>
+					<li><a href="/admin/addItem" >Add Item</a></li>
+				</ul>
+			</div>
+
+		</div>
+
+
+		<div class="center_content">
+
+<form action="/admin/saveCategory">
+		<div id="tab1" class="tabcontent">
+		        <h3>Tab one title</h3>
+		        <div class="form">
+			             <div class="form_row">
+			           		<label>Category</label>
+							<input type="text" name="category" class="form_input"></input><br></br>
+			            </div>
+			            <div class="form_row">
+			            	<label>Sub-Category</label>
+							<input type="text" name="subCategory" class="form_input"></input><br></br>
+			            </div>
+			            <div class="form_row">
+			            	<input type="submit" class="form_submit" value="Submit" />
+			            </div> 
+			            <div class="clear"></div>
+		        </div>
+		    </div>
+</form>
+
+
+
+ 
+
+			<div class="clear"></div>
+			<!--end of center_content-->
+
+			<div class="footer"></div>
+
+		</div>
+	</div>
+</body>
+</html>

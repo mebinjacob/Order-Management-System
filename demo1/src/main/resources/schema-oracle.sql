@@ -20,9 +20,9 @@ CREATE TABLE CASES(
 );
 
 
-
+--user_id Auto_Incrememnt
 CREATE TABLE IMGMT_USER(
-    user_id integer PRIMARY KEY,
+    user_id integer PRIMARY KEY Auto_Increment,
     first_name varchar(50) NOT NULL,
     middle_name varchar(50),
     last_name varchar(50) NOT NULL,
@@ -132,16 +132,17 @@ CREATE TABLE ADMIN(
     FOREIGN KEY(item_id) REFERENCES ITEM(item_id)
   );
   
-
+--brand_id Auto_Incrememnt
   CREATE TABLE BRAND(
-    brand_id integer PRIMARY KEY,
+    brand_id integer PRIMARY KEY Auto_Incrememnt,
     brand_name varchar(50) NOT NULL UNIQUE,
     user_id integer NOT NULL,
     FOREIGN KEY(user_id) REFERENCES BRAND_MANAGER(user_id)
 );
 
+--cat_id Auto_Incrememnt
 CREATE TABLE "CATEGORY"(
-   cat_id integer PRIMARY KEY,
+   cat_id integer PRIMARY KEY Auto_Increment,
    cat_name varchar(20) NOT NULL,
    sub_category varchar(20)
   );

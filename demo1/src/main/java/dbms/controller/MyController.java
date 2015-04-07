@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import dbms.service.AdminService;
 import dbms.service.DiscountService;
 import dbms.service.LoginService;
+import dbms.service.storeService;
 
 @Controller
 public class MyController {
@@ -24,6 +25,9 @@ public class MyController {
 
 	@Autowired
 	DiscountService discountService;
+	
+	@Autowired
+	storeService store_service;
 
 	@RequestMapping("/login")
 	public String greeting(@RequestParam(value="name", required=false, defaultValue="World") String name, Model model) {
@@ -33,14 +37,21 @@ public class MyController {
 
 	@RequestMapping("/loggedin")
 	public String loggedIn(@RequestParam(value="username") String username, @RequestParam(value="password")String password){
-
-		if(logService.login(username, password).equals("ADMIN")){
-			return "index";
+		if(logService.login(username, password) != null){
+			if(logService.login(username, password).equals("ADMIN") ){
+				return "index";
+			}
+			else if(logService.login(username, password).equals("IVMGR"))
+				return "inventoryMgmt";
+			
+			else if(logService.login(username, password).equals("BRMGR"))
+				return "brandManager";
+			else if(logService.login(username, password).equals("STMGR"))
+				return "storeManager";
+			
+				
 		}
-		else if(logService.login(username, password).equals("IVMGR"))
-			return "inventoryMgmt";
-		else
-			return "error";
+		return "error";
 	}
 
 	@RequestMapping("/displayGraph")
@@ -141,7 +152,30 @@ public class MyController {
 	public  String getbrandManagerData(){
 		return "brandManager";
 	}
+	@RequestMapping("/storeManager")
+	public String storeManager(){
 
+		return "storeManager";
+	}
+	
+	@RequestMapping("/getStoreItem")
+	public @ResponseBody List<List<String>> getStoreItems()
+	{
+		return store_service.selectItem_FromStore(0);
+	}
+	
+	@RequestMapping("/getStoreInventoryRequests")
+	public @ResponseBody List<List<String>> getStore_InventoryRequest()
+	{
+		return store_service.selectInventoryRequest_Store(0);
+	}
+	
+	@RequestMapping("/getStoreDiscountRequests")
+	public @ResponseBody List<List<String>> getStore_DiscountAndOffers()
+	{
+		return store_service.selectDiscountAndOffers(0);
+	}
+	
 	public List<List<String>> createRows(List<String> string){
 		List<List<String>> listOfString = new ArrayList<List<String>>();
 		for(String s : string){

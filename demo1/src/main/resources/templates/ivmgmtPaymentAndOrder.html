@@ -23,7 +23,7 @@
 			return false;
 		});
 		var t = $('#example').DataTable();
-		$.get("/inventoryManager/productListBasedOnReview", function(
+		$.get("/inventoryManager/ordersAndPayment", function(
 				dataFromServer) {
 			t.rows.add(dataFromServer).draw();
 		});
@@ -44,8 +44,8 @@
 			<div class="menu">
 				<ul>
 					<li><a href="/inventoryManager">Main page</a></li>
-					<li><a href="/inventoryManager/viewReports" class="selected">View Reports</a></li>
-					<li><a href="/inventoryManager/viewordersAndPayment">Order And Payments</a></li>
+					<li><a href="/inventoryManager/viewReports" >View Reports</a></li>
+					<li><a href="/inventoryManager/viewordersAndPayment" class="selected">Order And Payments</a></li>
 					<li><a href="#">Approve Discounts</a></li>
 				</ul>
 			</div>
@@ -56,12 +56,48 @@
 		<div class="center_content">
 
 			<div id="right_wrap">
-				<div>
+				<!-- <div>
 					<h2>Charts section</h2>
-					<!-- 	<div id="chart_div" style="width: 400; height: 300"></div> -->
+						<div id="chart_div" style="width: 400; height: 300"></div>
 					<div id="ivmgmt_chart_div" style="width: 400; height: 300"></div>
+				</div> -->
+				<div id="newOrder" class="loginform">
+					<form action="/inventoryManager/saveOrder">
+						
+						<div id="tab1" class="tabcontent">
+        <div class="form">
+            
+           <!--  <div class="form_row">
+            	<label>Price Paid:</label>
+				<input type="text" name="price" class="form_input"></input>
+            </div> -->
+             
+            <div class="form_row">
+            	<label>Item Id:</label>
+				<input type="text" name="itemid" class="form_input"></input><br></br>
+            </div>
+            
+            <div class="form_row">
+           		<label>Quantity:</label>
+				<input type="text" name="quantity" class="form_input"></input><br></br>
+            </div>
+            
+             <div class="form_row">
+           		<label>Comment:</label>
+				<input type="text" name="comment" class="form_input"></input><br></br>
+            </div>
+            <div class="form_row">
+            	<label>Price Paid:</label>
+				<input type="text" name="price" class="form_input"></input><br></br>
+            </div>
+            <div class="form_row">
+            <input type="submit" class="form_submit" value="Submit" />
+            </div> 
+            <div class="clear"></div>
+        </div>
+    </div>
+					</form>
 				</div>
-
 				<div>
 					<h2>Tables section</h2>
 					<div class="dataTables_wrapper">

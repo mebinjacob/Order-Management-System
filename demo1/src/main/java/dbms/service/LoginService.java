@@ -30,8 +30,9 @@ public class LoginService {
 						return  rs.getObject(1).toString();
 					}
 				});
-
-		return results.get(0) ;
+		if(results.size() > 0)
+			return results.get(0) ;
+		else return null;
 
 	}
 }

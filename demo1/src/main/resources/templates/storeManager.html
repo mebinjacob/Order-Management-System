@@ -1,0 +1,196 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Order Maangement System</title>
+<link rel="stylesheet" type="text/css" href="../../style.css" />
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.5/css/jquery.dataTables.css" />
+<link href='http://fonts.googleapis.com/css?family=Belgrano'
+	rel='stylesheet' type='text/css' />
+<!-- jQuery file  js/jquery.min.js-->
+<script src="https://code.jquery.com/jquery-1.11.1.min.js"></script>
+<script src="js/jquery.tabify.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+var $ = jQuery.noConflict();
+$(function() {
+$('#tabsmenu').tabify();
+$(".toggle_container").hide(); 
+$(".trigger").click(function(){
+	$(this).toggleClass("active").next().slideToggle("slow");
+	return false;
+});
+});
+</script>
+<!--Load the AJAX API-->
+<script type="text/javascript" src="https://www.google.com/jsapi"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="../../js/graphs.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+    var t = $('#example').DataTable();
+    var counter = 1;
+    $('#viewRequest').hide();
+    $('#viewDiscounts').hide();
+    $.get("/getStoreItem", function(dataFromServer){
+    	t.rows.add(dataFromServer).draw();
+    });
+    $("#mainPage_Click").click(function () {
+        var t = $('#inventoryRequest').DataTable();
+        var counter = 1;
+        $('#viewRequest').hide();
+        $('#storeItem').show();
+        $('#viewDiscounts').hide();
+        $.get("/getStoreInventoryRequests", function(dataFromServer){
+        t.rows.add(dataFromServer).draw();	})});
+    
+    $("#viewRequest_Click").click(function () {
+        var t = $('#inventoryRequest').DataTable();
+        var counter = 1;
+        $('#viewRequest').show();
+        $('#storeItem').hide();
+        $('#viewDiscounts').hide();
+        $.get("/getStoreInventoryRequests", function(dataFromServer){
+        t.rows.add(dataFromServer).draw();	})});
+    
+    $("#viewDiscount_Click").click(function () {
+            var t = $('#discountOffers').DataTable();
+            var counter = 1;
+            $('#viewRequest').hide();
+            $('#storeItem').hide();
+            $('#viewDiscounts').show();
+            $.get("/getStoreDiscountRequests", function(dataFromServer){
+            t.rows.add(dataFromServer).draw();	}) });
+} );
+
+
+</script>
+</head>
+<body>
+	<div id="panelwrap">
+
+		<div class="header">
+			<div class="title">
+				<a href="#">Order Management System</a>
+			</div>
+
+			<div class="header_right">
+				Welcome <a href="#" class="settings">Settings</a> <a href="#"
+					class="logout">Logout</a>
+			</div>
+
+			<div class="menu">
+				<ul>
+					<li><a href="#storeItem" id="mainPage_Click" class="selected">Main page</a></li>
+					<li><a href="#viewReport" id="">View Reports</a></li>
+					<li><a href="#viewRequest" id="viewRequest_Click">View Request</a></li>
+					<li><a href="#viewDiscounts" id="viewDiscount_Click">View Discount And Offers</a></li>
+				</ul>
+			</div>
+
+		</div>
+		<div class="center_content">
+
+			<div id="right_wrap">
+				<div id="right_content">
+				<div id="storeItem">
+					<h2>List of Inventory In Store</h2>
+					<table id="example" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>River</th>
+								<th>Province</th>
+								<th>Country</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+				<div id="viewRequest">
+					<h2>List of Inventory Rquested</h2>
+					<table id="inventoryRequest" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>River</th>
+								<th>Province</th>
+								<th>Country</th>
+							</tr>
+						</thead>
+					</table>
+				</div>	
+				<div id="viewDiscounts">
+					<h2>List of Dosciunts And Offers</h2>
+					<table id="discountOffers" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>River</th>
+								<th>Province</th>
+								<th>Country</th>
+							</tr>
+						</thead>
+					</table>
+				</div>
+					<div class="form_sub_buttons">
+						 <a href="#" class="button red">Delete selected</a>
+					</div>
+
+					<ul id="tabsmenu" class="tabsmenu">
+						<li class="active"><a href="#tab1">Inventory Request Form</a></li>
+					</ul>
+					<div id="tab1" class="tabcontent">
+						<h3>Fill the Form to Request Inventory</h3>
+						<div class="form">
+
+							<div class="form_row">
+								<label>Employee ID:</label> <input type="text" class="form_input"
+									name="" />
+							</div>
+
+							<div class="form_row">
+								<label>Item ID:</label> <input type="text" class="form_input"
+									name="" />
+							</div>
+
+							<div class="form_row">
+								<label>Qunatity:</label> <select class="form_select" name="">
+									<option>50</option>
+									<option>100</option>
+									<option>250</option>
+									<option>500</option>
+								</select>
+							</div>
+
+							<div class="form_row">
+								<label>Message:</label>
+								<textarea class="form_textarea" name=""></textarea>
+							</div>
+							<div class="form_row">
+								<input type="submit" class="form_submit" value="Submit" />
+							</div>
+							<div class="clear"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- end of right content-->
+
+
+			<div class="sidebar" id="sidebar">
+				<h2>User Information</h2>
+				<ul>
+					<li>Name: ABC</li>
+					<li>EMP_ID:</li>
+					<li>Location</li>
+				</ul>
+			</div>
+
+
+			<div class="clear"></div>
+		</div>
+		<!--end of center_content-->
+
+		<div class="footer"></div>
+
+	</div>
+
+
+</body>
+</html>

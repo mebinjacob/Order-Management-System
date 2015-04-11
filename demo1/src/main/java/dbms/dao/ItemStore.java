@@ -8,6 +8,14 @@ public class ItemStore {
 	private String city;
 	private String state;
 	private int zipCode;
+	private String storeName;
+	
+	public String getStoreName() {
+		return storeName;
+	}
+	public void setStoreName(String storeName) {
+		this.storeName = storeName;
+	}
 	public int getStoreId() {
 		return storeId;
 	}

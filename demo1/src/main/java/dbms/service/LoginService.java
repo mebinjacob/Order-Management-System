@@ -18,7 +18,16 @@ public class LoginService {
 
 	@Value("${login.sql}")
 	String loginSql;
+	
+	@Value("${userID.sql}")
+	String userIDSql;
 
+	public static String userName;
+	
+	public static String roleName;
+	
+	public static String userID;
+	
 	public String login(String username, String password){
 
 		//"SELECT COUNT(*) FROM IMGMT_USER where email= ? and passwd = ?"		
@@ -30,8 +39,20 @@ public class LoginService {
 						return  rs.getObject(1).toString();
 					}
 				});
-		if(results.size() > 0)
+		if(results.size() > 0){
+			this.userName = username;
+			List<String> userIds = jdbcTemplate.query(
+					userIDSql, new Object[]{username},
+					new RowMapper<String>() {
+						@Override
+						public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+							return  rs.getObject(1).toString();
+						}
+					});
+			userID = userIds.get(0);
 			return results.get(0) ;
+		}
+			
 		else return null;
 
 	}

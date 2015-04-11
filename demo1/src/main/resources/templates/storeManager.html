@@ -27,6 +27,7 @@ $(".trigger").click(function(){
 <script type="text/javascript">
 
 $(document).ready(function() {
+	
     var t = $('#example').DataTable();
     var counter = 1;
     $('#viewRequest').hide();
@@ -40,6 +41,7 @@ $(document).ready(function() {
         $('#viewRequest').hide();
         $('#storeItem').show();
         $('#viewDiscounts').hide();
+        $("#viewReport").hide();
         $.get("/getStoreInventoryRequests", function(dataFromServer){
         t.rows.add(dataFromServer).draw();	})});
     
@@ -49,6 +51,9 @@ $(document).ready(function() {
         $('#viewRequest').show();
         $('#storeItem').hide();
         $('#viewDiscounts').hide();
+        $("#viewReport").hide();
+        $("#tab1").show();
+        $("#tabsmenu").show();
         $.get("/getStoreInventoryRequests", function(dataFromServer){
         t.rows.add(dataFromServer).draw();	})});
     
@@ -58,8 +63,66 @@ $(document).ready(function() {
             $('#viewRequest').hide();
             $('#storeItem').hide();
             $('#viewDiscounts').show();
+            $("#tab1").show();
+            $("#tabsmenu").show();
             $.get("/getStoreDiscountRequests", function(dataFromServer){
             t.rows.add(dataFromServer).draw();	}) });
+    
+    $("#viewReport_click").click(function(){
+    	$("#viewReports").show();
+    	$('#viewRequest').hide();
+        $('#storeItem').hide();
+        $('#viewDiscounts').hide();
+        $("#tab1").hide();
+        $("#tabsmenu").hide();
+        
+      	  
+      	  $.get("/storeManager/getSalesReportData", function(dataFromServer){
+
+      		 var data = new google.visualization.DataTable();
+      	     data.addColumn('number', 'Month');
+       	     data.addColumn('number', 'Qty');
+             data.addRows(dataFromServer);
+      		  console.log(dataFromServer);
+      		  //data.addRows(dataFromServer);
+      		  var options = {
+      		            title: 'Sales Manager Report!!',
+      		            legend: { position: 'none' },
+      		          };
+      		   var chart = new google.visualization.BarChart(document.getElementById('salesReport_div'));
+      		   chart.draw(data, options);
+      	  });
+      	  
+      	  
+      	 $("#loadData").click(
+      			function (){
+      	      		 
+      	      		console.log('The month id is ' + $("#monthid"));
+      	      	 	$.get("/storeManager/getWeeklySalesReport",{monthID:$("#monthid").val()}, function(dataFromServer){
+      					
+      	      	 	
+      	        		 var data = new google.visualization.DataTable();
+      	        	     data.addColumn('number', 'Week');
+      	         	     data.addColumn('number', 'Qty');
+      	               data.addRows(dataFromServer);
+      	        		  console.log(dataFromServer);
+      	        		  //data.addRows(dataFromServer);
+      	        		  var options = {
+      	        		            title: 'Sales Manager Weekly Report!!',
+      	        		            legend: { position: 'none' },
+      	        		          };
+      	        		   var chart = new google.visualization.BarChart(document.getElementById('salesWeekReport_div'));
+      	        		   chart.draw(data, options);
+      	        	  });
+      	      		 return false;
+      	      	 }
+      	     		 
+      	 
+      	 ); 
+      	 
+          
+    });
+    
 } );
 
 
@@ -81,7 +144,7 @@ $(document).ready(function() {
 			<div class="menu">
 				<ul>
 					<li><a href="#storeItem" id="mainPage_Click" class="selected">Main page</a></li>
-					<li><a href="#viewReport" id="">View Reports</a></li>
+					<li><a href="#" id="viewReport_click">View Reports</a></li>
 					<li><a href="#viewRequest" id="viewRequest_Click">View Request</a></li>
 					<li><a href="#viewDiscounts" id="viewDiscount_Click">View Discount And Offers</a></li>
 				</ul>
@@ -117,7 +180,7 @@ $(document).ready(function() {
 					</table>
 				</div>	
 				<div id="viewDiscounts">
-					<h2>List of Dosciunts And Offers</h2>
+					<h2>List of Discounts And Offers</h2>
 					<table id="discountOffers" class="display" cellspacing="0" width="100%">
 						<thead>
 							<tr>
@@ -127,6 +190,14 @@ $(document).ready(function() {
 							</tr>
 						</thead>
 					</table>
+				</div>
+				
+				<div id="viewReports">
+					<h2>Sales Report</h2>
+					<div id="salesReport_div" style="width: 400; height: 300"></div><br></br>
+					<div id="salesWeekReport_div" style="width: 400; height: 300"></div>
+					<input type="text" id="monthid" name="month"></input> 
+  					<input type="submit" id="loadData" value="Submit"></input>					
 				</div>
 					<div class="form_sub_buttons">
 						 <a href="#" class="button red">Delete selected</a>

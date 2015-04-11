@@ -17,6 +17,8 @@ import dbms.service.storeService;
 @Controller
 public class MyController {
 
+	
+	
 	@Autowired 
 	AdminService ser;	
 
@@ -37,18 +39,20 @@ public class MyController {
 
 	@RequestMapping("/loggedin")
 	public String loggedIn(@RequestParam(value="username") String username, @RequestParam(value="password")String password){
-		if(logService.login(username, password) != null){
-			if(logService.login(username, password).equals("ADMIN") ){
+		String role = null;
+		if((role = logService.login(username, password)) != null){
+			if(role.equals("ADMIN") ){
 				return "admin";
 			}
-			else if(logService.login(username, password).equals("IVMGR"))
+			else if(role.equals("IVMGR")){
 				return "inventoryMgmt";
-			
-			else if(logService.login(username, password).equals("BRMGR"))
+			}
+			else if(role.equals("BRMGR")){
 				return "brandManager";
-			else if(logService.login(username, password).equals("STMGR"))
+			}
+			else if(role.equals("STMGR")){
 				return "storeManager";
-			
+			}
 				
 		}
 		return "error";

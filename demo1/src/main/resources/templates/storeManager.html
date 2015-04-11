@@ -89,7 +89,7 @@ $(document).ready(function() {
       		            title: 'Sales Manager Report!!',
       		            legend: { position: 'none' },
       		          };
-      		   var chart = new google.visualization.BarChart(document.getElementById('salesReport_div'));
+      		   var chart = new google.visualization.ColumnChart(document.getElementById('salesReport_div'));
       		   chart.draw(data, options);
       	  });
       	  
@@ -102,8 +102,9 @@ $(document).ready(function() {
       					
       	      	 	
       	        		 var data = new google.visualization.DataTable();
-      	        	     data.addColumn('number', 'Week');
-      	         	     data.addColumn('number', 'Qty');
+      	        		 
+      	        		 data.addColumn('number', 'Week');
+      	        		data.addColumn('number', 'Qty');
       	               data.addRows(dataFromServer);
       	        		  console.log(dataFromServer);
       	        		  //data.addRows(dataFromServer);
@@ -111,7 +112,7 @@ $(document).ready(function() {
       	        		            title: 'Sales Manager Weekly Report!!',
       	        		            legend: { position: 'none' },
       	        		          };
-      	        		   var chart = new google.visualization.BarChart(document.getElementById('salesWeekReport_div'));
+      	        		   var chart = new google.visualization.ColumnChart(document.getElementById('salesWeekReport_div'));
       	        		   chart.draw(data, options);
       	        	  });
       	      		 return false;
@@ -195,7 +196,7 @@ $(document).ready(function() {
 				<div id="viewReports">
 					<h2>Sales Report</h2>
 					<div id="salesReport_div" style="width: 400; height: 300"></div><br></br>
-					<div id="salesWeekReport_div" style="width: 400; height: 300"></div>
+					<div id="salesWeekReport_div" style="width: 400; height: 800"></div>
 					<input type="text" id="monthid" name="month"></input> 
   					<input type="submit" id="loadData" value="Submit"></input>					
 				</div>

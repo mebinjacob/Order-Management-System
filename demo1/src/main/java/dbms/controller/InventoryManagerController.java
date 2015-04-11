@@ -57,6 +57,17 @@ public class InventoryManagerController {
 				.getAllProducts(1));
 	}
 
+	@RequestMapping("/getMonthlySalesReport")
+	public @ResponseBody List<List<Object>> getMonthlySalesReport(@RequestParam String month, @RequestParam String year) {
+		return inventoryManagerService.getMonthlySalesReport(month, year);
+	}
+
+	@RequestMapping("/getWeeklySalesReport")
+	public @ResponseBody List<List<Object>> getWeeklySalesReport(@RequestParam String year, @RequestParam String month, @RequestParam String week) {
+		return inventoryManagerService.getWeeklySalesReport(year, month, week);
+	}
+	
+	
 	/*@RequestMapping("/ordersAndPayment")
 	public @ResponseBody List<List<? extends Object>> ordersAndPayment() {
 		return OrderMgmtUtils.createRows(inventoryManagerService

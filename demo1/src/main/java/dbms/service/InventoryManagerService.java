@@ -6,6 +6,7 @@ package dbms.service;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,11 @@ public class InventoryManagerService {
 	@Value("${invmgmtRatingGreaterThan4.sql}")
 	String productsBasedOnRating;
 	
+	@Value("${invmonthlysalesreport.sql}")
+	String invmonthlySalesReportSQL;
 	
+	@Value("${invweeklyreport.sql}")
+	String invweeklySalesReportSQL;
 	
 //	public List<Item> getOrdersAndPayment(int pageNo) {
 //		
@@ -101,5 +106,55 @@ public class InventoryManagerService {
 				});
 		return results;
 	}
-
+	
+	
+	public List<List<Object>> getMonthlySalesReport(String month, String year){
+		
+		List<List<Object>> results = jdbcTemplate.query(
+				invmonthlySalesReportSQL, new Object[]{year, month},
+				new RowMapper<List<Object>>() {
+					@Override
+					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+						
+						List<Object> storeSalesReportList = new ArrayList<Object>();
+						storeSalesReportList.add(rs.getString(1).toString());
+						if(null != rs.getString(2)){
+							
+							storeSalesReportList.add(Integer.parseInt(rs.getString(2)));
+						}
+						else{
+							storeSalesReportList.add(0);
+						}
+						
+						return storeSalesReportList;
+					}
+				});
+		return results;
+	}
+	
+	
+public List<List<Object>> getWeeklySalesReport(String year, String month, String week){
+		
+		List<List<Object>> results = jdbcTemplate.query(
+				invweeklySalesReportSQL, new Object[]{year, month, week},
+				new RowMapper<List<Object>>() {
+					@Override
+					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+						
+						List<Object> storeSalesReportList = new ArrayList<Object>();
+						storeSalesReportList.add(rs.getString(1).toString());
+						if(null != rs.getString(2)){
+							
+							storeSalesReportList.add(Integer.parseInt(rs.getString(2)));
+						}
+						else{
+							storeSalesReportList.add(0);
+						}
+						
+						return storeSalesReportList;
+					}
+				});
+		return results;
+	}
+	
 }

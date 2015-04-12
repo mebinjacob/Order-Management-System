@@ -162,24 +162,6 @@ public class MyController {
 		return "storeManager";
 	}
 	
-	@RequestMapping("/getStoreItem")
-	public @ResponseBody List<List<String>> getStoreItems()
-	{
-		return store_service.selectItem_FromStore(0);
-	}
-	
-	@RequestMapping("/getStoreInventoryRequests")
-	public @ResponseBody List<List<String>> getStore_InventoryRequest()
-	{
-		return store_service.selectInventoryRequest_Store(0);
-	}
-	
-	@RequestMapping("/getStoreDiscountRequests")
-	public @ResponseBody List<List<String>> getStore_DiscountAndOffers()
-	{
-		return store_service.selectDiscountAndOffers(0);
-	}
-	
 	public List<List<String>> createRows(List<String> string){
 		List<List<String>> listOfString = new ArrayList<List<String>>();
 		for(String s : string){

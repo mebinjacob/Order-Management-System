@@ -32,7 +32,7 @@ $(document).ready(function() {
     var counter = 1;
     $('#viewRequest').hide();
     $('#viewDiscounts').hide();
-    $.get("/getStoreItem", function(dataFromServer){
+    $.get("/storeManager/getStoreItem", function(dataFromServer){
     	t.rows.add(dataFromServer).draw();
     });
     $("#mainPage_Click").click(function () {
@@ -42,7 +42,7 @@ $(document).ready(function() {
         $('#storeItem').show();
         $('#viewDiscounts').hide();
         $("#viewReport").hide();
-        $.get("/getStoreInventoryRequests", function(dataFromServer){
+        $.get("/storeManager/getStoreInventoryRequests", function(dataFromServer){
         t.rows.add(dataFromServer).draw();	})});
     
     $("#viewRequest_Click").click(function () {
@@ -54,7 +54,7 @@ $(document).ready(function() {
         $("#viewReport").hide();
         $("#tab1").show();
         $("#tabsmenu").show();
-        $.get("/getStoreInventoryRequests", function(dataFromServer){
+        $.get("/storeManager/getStoreInventoryRequests", function(dataFromServer){
         t.rows.add(dataFromServer).draw();	})});
     
     $("#viewDiscount_Click").click(function () {
@@ -161,9 +161,10 @@ $(document).ready(function() {
 					<table id="example" class="display" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>River</th>
-								<th>Province</th>
-								<th>Country</th>
+								<th>ITEM_ID</th>
+								<th>ITEM NAME</th>
+								<th>SELLING PRICE</th>
+								<th>QUANTITY</th>
 							</tr>
 						</thead>
 					</table>
@@ -173,9 +174,10 @@ $(document).ready(function() {
 					<table id="inventoryRequest" class="display" cellspacing="0" width="100%">
 						<thead>
 							<tr>
-								<th>River</th>
-								<th>Province</th>
-								<th>Country</th>
+								<th>ITEM ID</th>
+								<th>QUANTITY</th>
+								<th>COMMENTS</th>
+								<th>STATUS</th>
 							</tr>
 						</thead>
 					</table>
@@ -207,22 +209,23 @@ $(document).ready(function() {
 					<ul id="tabsmenu" class="tabsmenu">
 						<li class="active"><a href="#tab1">Inventory Request Form</a></li>
 					</ul>
+					<form action ="/storeManager/addInventory">
 					<div id="tab1" class="tabcontent">
 						<h3>Fill the Form to Request Inventory</h3>
 						<div class="form">
 
 							<div class="form_row">
 								<label>Employee ID:</label> <input type="text" class="form_input"
-									name="" />
+									name="empId" />
 							</div>
 
 							<div class="form_row">
 								<label>Item ID:</label> <input type="text" class="form_input"
-									name="" />
+									name="itemId" />
 							</div>
 
 							<div class="form_row">
-								<label>Qunatity:</label> <select class="form_select" name="">
+								<label>Qunatity:</label> <select class="form_select" name="qty">
 									<option>50</option>
 									<option>100</option>
 									<option>250</option>
@@ -231,8 +234,8 @@ $(document).ready(function() {
 							</div>
 
 							<div class="form_row">
-								<label>Message:</label>
-								<textarea class="form_textarea" name=""></textarea>
+								<label>Comments:</label>
+								<textarea class="form_textarea" name="Comments"></textarea>
 							</div>
 							<div class="form_row">
 								<input type="submit" class="form_submit" value="Submit" />
@@ -240,6 +243,7 @@ $(document).ready(function() {
 							<div class="clear"></div>
 						</div>
 					</div>
+					</form>
 				</div>
 			</div>
 			<!-- end of right content-->

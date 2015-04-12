@@ -28,6 +28,8 @@ public class LoginService {
 	
 	public static String userID;
 	
+	public static int locationID;   // this will store the store id's of the store manager
+	
 	public String login(String username, String password){
 
 		//"SELECT COUNT(*) FROM IMGMT_USER where email= ? and passwd = ?"		

@@ -28,8 +28,14 @@ public class storeService {
 	@Value("${store_InventoryCount}")
 	String inventory_Count;
 	
+	@Value("$(monthlystoreGrowth.sql)")
+	String monthlyStore_Growth;
+	
 	@Value("${storeid.sql}")
 	String storeIdSQL;
+	
+	@Value("${store_InventoryRequestLIst}")
+	String invReqSql;
 	
 	@Value("${store_addInevtory}")
 	String addInvsql;
@@ -41,7 +47,7 @@ public class storeService {
 	String weeklysalesReportSQL;
 	
 
-	public  List<List<Object>> monthlySalesReport()
+	public  List<List<Object>> monthlySalesReport(String yearID)
 	{
 		
 		
@@ -55,7 +61,60 @@ public class storeService {
 				});
 		
 		List<List<Object>> results = jdbcTemplate.query(
-				monthlySalesReportSQL, new Object[]{storeIdList.get(0)},
+				monthlySalesReportSQL, new Object[]{yearID, storeIdList.get(0)},
+				new RowMapper<List<Object>>() {
+					@Override
+					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+						
+						List<Object> storeSalesReportList = new ArrayList<Object>();
+						storeSalesReportList.add(Integer.parseInt(rs.getString(1)));
+						storeSalesReportList.add(Integer.parseInt(rs.getString(2)));
+						return storeSalesReportList;
+					}
+				});
+		return results;
+	}
+	
+	public List<List<Object>> monthlyStoreGrowth(String yearID)
+	{
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		List<List<Object>> results = jdbcTemplate.query(
+				monthlyStore_Growth, new Object[]{storeIdList.get(0), yearID,storeIdList.get(0), yearID},
+				new RowMapper<List<Object>>() {
+					@Override
+					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+						
+						List<Object> storeSalesReportList = new ArrayList<Object>();
+						storeSalesReportList.add(Integer.parseInt(rs.getString(1)));
+						storeSalesReportList.add(Integer.parseInt(rs.getString(2)));
+						return storeSalesReportList;
+					}
+				});
+		return results;
+	}
+	
+	public List<List<Object>> weeklySalesReport(String monthID, String yearID)
+	{
+		
+		
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		
+		List<List<Object>> results = jdbcTemplate.query(
+				weeklysalesReportSQL, new Object[]{yearID, monthID, storeIdList.get(0)},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -71,10 +130,9 @@ public class storeService {
 	
 	
 	
-	public List<List<Object>> weeklySalesReport(String monthID)
+	
+	public List<List<String>> selectItem_FromStore()
 	{
-		
-		
 		List<String> storeIdList = jdbcTemplate.query(
 				storeIdSQL, new Object[]{LoginService.userID},
 				new RowMapper<String>() {
@@ -84,35 +142,11 @@ public class storeService {
 					}
 				});
 		
-		List<List<Object>> results = jdbcTemplate.query(
-				weeklysalesReportSQL, new Object[]{monthID, storeIdList.get(0)},
-				new RowMapper<List<Object>>() {
-					@Override
-					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
-						
-						List<Object> storeSalesReportList = new ArrayList<Object>();
-						storeSalesReportList.add(Integer.parseInt(rs.getString(1)));
-						storeSalesReportList.add(Integer.parseInt(rs.getString(2)));
-						return storeSalesReportList;
-					}
-				});
-		return results;
-	}
-	
-	
-	
-	
-	public List<List<String>> selectItem_FromStore(int StoreId)
-	{
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
-		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{StoreId});
+		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{storeIdList.get(0)});
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
 		SqlRowSetMetaData mData = data.getMetaData();
-		List<String> colName = new ArrayList<String>();
-		for(int i = 1; i <= mData.getColumnCount(); i++)
-			colName.add(mData.getColumnName(i));
-		queriedData.add(colName);
 		while(data.next())
 		{
 			List<String> colData = new ArrayList<String>();
@@ -123,17 +157,22 @@ public class storeService {
 		return queriedData;
 	}
 	
-	public List<List<String>> selectInventoryRequest_Store(int storeId)
+	public List<List<String>> selectInventoryRequest_Store()
 	{
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
-		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{storeId});
+		SqlRowSet data = jdbcTemplate.queryForRowSet(invReqSql, new Object[]{storeIdList.get(0)});
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
 		SqlRowSetMetaData mData = data.getMetaData();
-		List<String> colName = new ArrayList<String>();
-		for(int i = 1; i <= mData.getColumnCount(); i++)
-			colName.add(mData.getColumnName(i));
-		queriedData.add(colName);
 		while(data.next())
 		{
 			List<String> colData = new ArrayList<String>();

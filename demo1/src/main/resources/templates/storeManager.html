@@ -32,6 +32,7 @@ $(document).ready(function() {
     var counter = 1;
     $('#viewRequest').hide();
     $('#viewDiscounts').hide();
+    $('#viewReports').hide();
     $.get("/storeManager/getStoreItem", function(dataFromServer){
     	t.rows.add(dataFromServer).draw();
     });
@@ -41,17 +42,34 @@ $(document).ready(function() {
         $('#viewRequest').hide();
         $('#storeItem').show();
         $('#viewDiscounts').hide();
-        $("#viewReport").hide();
+        $("#viewReports").hide();
         $.get("/storeManager/getStoreInventoryRequests", function(dataFromServer){
         t.rows.add(dataFromServer).draw();	})});
-    
+
+    $('#typeOfReport').change(function() {
+        if ($(this).find(':selected').val() === 'WSR') {
+        	$('#WSR_Input').show();
+        	$('#MSR_Input').hide();
+        } else if($(this).find(':selected').val() === 'MSR'){
+        	$('#WSR_Input').hide();
+        	$('#MSR_Input').show();
+        	$('#PSR_Input').hide();
+        }
+        else if($(this).find(':selected').val() === 'PSR')
+        {
+        	$('#WSR_Input').hide();
+        	$('#MSR_Input').hide();
+        	$('#PSR_Input').show();
+        }
+    });
+ 
     $("#viewRequest_Click").click(function () {
         var t = $('#inventoryRequest').DataTable();
         var counter = 1;
         $('#viewRequest').show();
         $('#storeItem').hide();
         $('#viewDiscounts').hide();
-        $("#viewReport").hide();
+        $("#viewReports").hide();
         $("#tab1").show();
         $("#tabsmenu").show();
         $.get("/storeManager/getStoreInventoryRequests", function(dataFromServer){
@@ -63,58 +81,87 @@ $(document).ready(function() {
             $('#viewRequest').hide();
             $('#storeItem').hide();
             $('#viewDiscounts').show();
+            $("#viewReports").hide();
             $("#tab1").show();
             $("#tabsmenu").show();
             $.get("/getStoreDiscountRequests", function(dataFromServer){
             t.rows.add(dataFromServer).draw();	}) });
     
     $("#viewReport_click").click(function(){
+    	$('#MSR_Input').hide();
+    	$('#PSR_Input').hide();
     	$("#viewReports").show();
     	$('#viewRequest').hide();
         $('#storeItem').hide();
         $('#viewDiscounts').hide();
         $("#tab1").hide();
         $("#tabsmenu").hide();
-        
-      	  
-      	  $.get("/storeManager/getSalesReportData", function(dataFromServer){
-
-      		 var data = new google.visualization.DataTable();
-      	     data.addColumn('number', 'Month');
-       	     data.addColumn('number', 'Qty');
-             data.addRows(dataFromServer);
-      		  console.log(dataFromServer);
-      		  //data.addRows(dataFromServer);
-      		  var options = {
-      		            title: 'Sales Manager Report!!',
-      		            legend: { position: 'none' },
-      		          };
-      		   var chart = new google.visualization.ColumnChart(document.getElementById('salesReport_div'));
-      		   chart.draw(data, options);
-      	  });
-      	  
-      	  
+        	  
       	 $("#loadData").click(
       			function (){
       	      		 
-      	      		console.log('The month id is ' + $("#monthid"));
-      	      	 	$.get("/storeManager/getWeeklySalesReport",{monthID:$("#monthid").val()}, function(dataFromServer){
-      					
-      	      	 	
-      	        		 var data = new google.visualization.DataTable();
-      	        		 
-      	        		 data.addColumn('number', 'Week');
-      	        		data.addColumn('number', 'Qty');
-      	               data.addRows(dataFromServer);
-      	        		  console.log(dataFromServer);
-      	        		  //data.addRows(dataFromServer);
-      	        		  var options = {
-      	        		            title: 'Sales Manager Weekly Report!!',
-      	        		            legend: { position: 'none' },
-      	        		          };
-      	        		   var chart = new google.visualization.ColumnChart(document.getElementById('salesWeekReport_div'));
-      	        		   chart.draw(data, options);
-      	        	  });
+      	      		console.log('The SELECTED REPORT ' + ($('#typeOfReport').find(':selected').val()));
+      	      		if (($('#typeOfReport').find(':selected').val()) == 'WSR')
+      	      		{
+      	      			$('#salesMonthReport_div').hide();
+      	      			$('#monthlyGrowth_Report').hide();
+          	      	 	$.get("/storeManager/getWeeklySalesReport",{monthID:$("#wsr_month").val() , yearID:$("#wsr_year").val()}, function(dataFromServer){
+          				
+         	        		 var data = new google.visualization.DataTable();
+         	        		 data.addColumn('number', 'Week');
+         	        		data.addColumn('number', 'Qty');
+         	               data.addRows(dataFromServer);
+         	        		  console.log(dataFromServer);
+         	        		  var options = {
+         	        		            title: 'Weekly Report of the store',
+         	        		            legend: { position: 'none' },
+         	        		          };
+         	        		   var chart = new google.visualization.ColumnChart(document.getElementById('salesWeekReport_div'));
+         	        		   chart.draw(data, options);
+         	        	  });
+          	      	$('#salesWeekReport_div').show();
+      	      		}
+      	      		else if(($('#typeOfReport').find(':selected').val()) == 'MSR')
+      	      		{
+     	      			$('#salesWeekReport_div').hide();
+      	      			$('#monthlyGrowth_Report').hide();
+          	      	 	$.get("/storeManager/getMonthlySalesReportData",{yearID:$("#msr_year").val()}, function(dataFromServer){
+              				
+        	        		 var data = new google.visualization.DataTable();
+        	        		 data.addColumn('number', 'Month');
+        	        		data.addColumn('number', 'Qty');
+        	               data.addRows(dataFromServer);
+        	        		  console.log(dataFromServer);
+        	        		  var options = {
+        	        		            title: 'Monthly Sales Report',
+        	        		            legend: { position: 'none' },
+        	        		          };
+        	        		   var chart = new google.visualization.ColumnChart(document.getElementById('salesMonthReport_div'));
+        	        		   chart.draw(data, options);
+        	        	  });
+          	      	$('#salesMonthReport_div').show();
+      	      		}
+      	      		else if(($('#typeOfReport').find(':selected').val()) == 'PSR')
+      	      		{
+      	      		$('#salesWeekReport_div').hide();
+  	      			$('#salesMonthReport_div').hide();
+          	      	 	$.get("/storeManager/getMonthlyGrowthReport",{yearID:$("#psr_year").val()}, function(dataFromServer){
+              				
+       	        		 var data = new google.visualization.DataTable();
+       	        		 data.addColumn('number', 'Month');
+       	        		data.addColumn('number', 'Growth');
+       	               	data.addRows(dataFromServer);
+       	        		  console.log(dataFromServer);
+       	        		  var options = {
+       	        		            title: 'Monthly Growth Report',
+       	        		            legend: { position: 'none' },
+       	        		          };
+       	        		   var chart = new google.visualization.ColumnChart(document.getElementById('monthlyGrowth_Report'));
+       	        		   chart.draw(data, options);
+       	        	  });
+          	      	$('#monthlyGrowth_Report').show();
+      	      		}
+
       	      		 return false;
       	      	 }
       	     		 
@@ -145,7 +192,7 @@ $(document).ready(function() {
 			<div class="menu">
 				<ul>
 					<li><a href="#storeItem" id="mainPage_Click" class="selected">Main page</a></li>
-					<li><a href="#" id="viewReport_click">View Reports</a></li>
+					<li><a href="#viewReports" id="viewReport_click">View Reports</a></li>
 					<li><a href="#viewRequest" id="viewRequest_Click">View Request</a></li>
 					<li><a href="#viewDiscounts" id="viewDiscount_Click">View Discount And Offers</a></li>
 				</ul>
@@ -199,13 +246,38 @@ $(document).ready(function() {
 					<h2>Sales Report</h2>
 					<div id="salesReport_div" style="width: 400; height: 300"></div><br></br>
 					<div id="salesWeekReport_div" style="width: 400; height: 800"></div>
-					<input type="text" id="monthid" name="month"></input> 
-  					<input type="submit" id="loadData" value="Submit"></input>					
+					<div id="salesMonthReport_div" style="width: 400; height: 800"></div>		
+  					<div id="monthlyGrowth_Report" style="width: 400; height: 800"></div>
+  						<div class="form_row">
+								<label style="width:250px">Select the Report You Wish To View</label>
+								<br/>
+								<select class="form_select" name="typeOfReport" id = "typeOfReport">
+									<option value = "WSR" >Weekly Sales Report</option>
+									<option value = "MSR" >Monthly Sales Report</option>
+									<option value = "PSR" >Product Sales Report</option>
+								</select>
+						</div>
+						<div class="form_row" id = "WSR_Input">
+							<label>Month</label> <input type="text" class="form_input"
+							name="wsr_month" id = "wsr_month"/>
+							<label>Year</label> <input type="text" class="form_input"
+							name="wsr_year" id = "wsr_year"/>
+  						</div>		
+  						
+  						<div class="form_row" id = "MSR_Input">
+							<label>Year</label> <input type="text" class="form_input"
+							name="msr_year" id = "msr_year"/>
+  						</div>		
+  						
+  						<div class="form_row" id = "PSR_Input">
+							<label>Year</label> <input type="text" class="form_input"
+							name="psr_year" id = "psr_year"/>
+  						</div>
+  						
 				</div>
-					<div class="form_sub_buttons">
-						 <a href="#" class="button red">Delete selected</a>
-					</div>
-
+				<div class="form_row">
+					<input type="submit" class="form_submit" value="Submit" id = "loadData"/>
+				</div>
 					<ul id="tabsmenu" class="tabsmenu">
 						<li class="active"><a href="#tab1">Inventory Request Form</a></li>
 					</ul>

@@ -9,6 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -35,7 +36,7 @@ public class StoreManagerController {
 	{
 		LoginService loginService = new LoginService();
 		//return store_service.selectItem_FromStore(loginService.locationID);
-		return store_service.selectItem_FromStore(2);
+		return store_service.selectItem_FromStore();
 	}
 	
 	@RequestMapping("/getStoreInventoryRequests")
@@ -43,7 +44,7 @@ public class StoreManagerController {
 	{
 		LoginService loginService = new LoginService();
 		//return store_service.selectInventoryRequest_Store(loginService.locationID);
-		return store_service.selectInventoryRequest_Store(2);
+		return store_service.selectInventoryRequest_Store();
 	}
 	
 	@RequestMapping("/getStoreDiscountRequests")
@@ -62,25 +63,30 @@ public class StoreManagerController {
 		return "storeManager";
 	}
 	@RequestMapping("/getStoresList")
-	public @ResponseBody List<String> getStoresList(){
-		return null;
+	public @ResponseBody List<List<String>> getStoresList(){
+		return store_service.selectItem_FromStore();
 	}
 	
-	@RequestMapping("/getSalesReportData")
-	public @ResponseBody List<List<Object>> getMonthlySalesReportData(){
+	@RequestMapping("/getMonthlySalesReportData")
+	public @ResponseBody List<List<Object>> getMonthlySalesReportData(@RequestParam String yearID){
 		List<List<Object>> monthAndSaleList = new ArrayList<List<Object>>();
 		List<Object> mthAndSale = new ArrayList<Object>();
 		mthAndSale.add("Month");
 		mthAndSale.add("Sale");
 		monthAndSaleList.add(mthAndSale);
-		monthAndSaleList.addAll(store_service.monthlySalesReport());
-		return store_service.monthlySalesReport();
+		monthAndSaleList.addAll(store_service.monthlySalesReport(yearID));
+		return store_service.monthlySalesReport(yearID);
 	}
 	
+	@RequestMapping("/getMonthlyGrowthReport")
+	public @ResponseBody List<List<Object>> getMonthlySalesReport(@RequestParam String yearID)
+	{
+		return store_service.monthlySalesReport(yearID);
+	}
 	
 	@RequestMapping("/getWeeklySalesReport")
-	public @ResponseBody List<List<Object>> getWeeklySalesReport(@RequestParam String monthID){
-		return store_service.weeklySalesReport(monthID);
+	public @ResponseBody List<List<Object>> getWeeklySalesReport(@RequestParam String monthID, @RequestParam String yearID){
+		return store_service.weeklySalesReport(monthID, yearID);
 	}
 	
 }

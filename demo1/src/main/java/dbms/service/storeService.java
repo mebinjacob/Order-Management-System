@@ -208,8 +208,16 @@ public class storeService {
 	{
 		int count = jdbcTemplate.queryForInt(inventory_Count);
 		int reqId = ++count;
-		Object[] params = new Object[] { reqId, Integer.parseInt(empId), Integer.parseInt(itemId), qty, Comments, "Pending" };
-		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR};
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		Object[] params = new Object[] { reqId, Integer.parseInt(empId), Integer.parseInt(itemId), qty, Comments, "Pending", /*Integer.parseInt(storeIdList.get(0))*/ 1};
+		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
 		int nrows = jdbcTemplate.update(addInvsql, params, types);
 		System.out.print("The number of rows Affecte" + nrows);
 	}

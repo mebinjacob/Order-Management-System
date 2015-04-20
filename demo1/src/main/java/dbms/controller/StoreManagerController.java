@@ -89,4 +89,16 @@ public class StoreManagerController {
 		return store_service.weeklySalesReport(monthID, yearID);
 	}
 	
+	@RequestMapping("/getminStoreStatistics")
+	public @ResponseBody List<List<String>> getminStoreData()
+	{
+		return store_service.getminStoreData();
+	}
+	
+	@RequestMapping("/getmaxStoreStatistics")
+	public @ResponseBody List<List<String>> getmaxStoreData()
+	{
+		return store_service.getmaxStoreDetail();
+	}
+	
 }

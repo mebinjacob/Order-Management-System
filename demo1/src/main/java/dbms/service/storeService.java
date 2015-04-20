@@ -46,7 +46,12 @@ public class storeService {
 	@Value("${weeklysalesReport.sql}")
 	String weeklysalesReportSQL;
 	
+	@Value("${store_StatsLeastpopular}")
+	String minstore_sql; 
 
+	@Value("${store_StatsMostPopular}")
+	String maxstore_sql; 
+	
 	public  List<List<Object>> monthlySalesReport(String yearID)
 	{
 		
@@ -185,6 +190,7 @@ public class storeService {
 	
 	public List<List<String>> selectDiscountAndOffers(int storeId)
 	{
+		
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{StoreId});
@@ -220,5 +226,56 @@ public class storeService {
 		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
 		int nrows = jdbcTemplate.update(addInvsql, params, types);
 		System.out.print("The number of rows Affecte" + nrows);
+	}
+	
+	public List<List<String>> getminStoreData()
+	{
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		List<List<String>> queriedData;
+		queriedData = new ArrayList<List<String>>();
+		SqlRowSet data = jdbcTemplate.queryForRowSet(minstore_sql, new Object[]{storeIdList.get(0)});
+		//SqlRowSet data = jdbcTemplate.queryForRowSet(minstore_sql);
+		SqlRowSetMetaData mData = data.getMetaData();
+		while(data.next())
+		{
+			List<String> colData = new ArrayList<String>();
+			for(int i = 1; i <= mData.getColumnCount(); i++)
+				colData.add(data.getString(i));
+			queriedData.add(colData);
+		}
+		return queriedData;
+	}
+	
+	public List<List<String>> getmaxStoreDetail()
+	{
+		List<String> storeIdList = jdbcTemplate.query(
+				storeIdSQL, new Object[]{LoginService.userID},
+				new RowMapper<String>() {
+					@Override
+					public String mapRow(ResultSet rs, int rowNum) throws SQLException {
+						return rs.getObject(1).toString();
+					}
+				});
+		
+		List<List<String>> queriedData;
+		queriedData = new ArrayList<List<String>>();
+		SqlRowSet data = jdbcTemplate.queryForRowSet(maxstore_sql, new Object[]{storeIdList.get(0)});
+		//SqlRowSet data = jdbcTemplate.queryForRowSet(maxstore_sql);
+		SqlRowSetMetaData mData = data.getMetaData();
+		while(data.next())
+		{
+			List<String> colData = new ArrayList<String>();
+			for(int i = 1; i <= mData.getColumnCount(); i++)
+				colData.add(data.getString(i));
+			queriedData.add(colData);
+		}
+		return queriedData;
 	}
 }

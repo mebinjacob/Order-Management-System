@@ -52,12 +52,13 @@ public class BrandManagerService {
 		jdbcTemplate.update(addCategory, category);
 		//jdbcTemplate.update(addCategory, params, types);
 		System.out.println("row inserted.");
-		/*if(subCategory != null)
+		System.out.println();
+		if(subCategory != null)
 		{			
 			Object[] params1 = new Object[] { subCategory };
-			int[] types1 = new int[] {  Types.VARCHAR};			
-			jdbcTemplate.update(brndMgrAddSubCategorySQL, params1, Types.VARCHAR);			
-		}*/
+//			int[] types1 = new int[] {  Types.VARCHAR};			
+			jdbcTemplate.update(brndMgrAddSubCategorySQL, params1);			
+		}
 	}
 	public List<Item> getAllProducts(int pageNo) {
 		List<Item> results = jdbcTemplate.query(

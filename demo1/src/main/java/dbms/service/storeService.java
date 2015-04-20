@@ -61,7 +61,7 @@ public class storeService {
 				});
 		
 		List<List<Object>> results = jdbcTemplate.query(
-				monthlySalesReportSQL, new Object[]{yearID, storeIdList.get(0)},
+				monthlySalesReportSQL, new Object[]{yearID, /*storeIdList.get(0)*/1},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -86,7 +86,7 @@ public class storeService {
 					}
 				});
 		List<List<Object>> results = jdbcTemplate.query(
-				monthlyStore_Growth, new Object[]{storeIdList.get(0), yearID,storeIdList.get(0), yearID},
+				monthlyStore_Growth, new Object[]{/*storeIdList.get(0)*/1, yearID,/*storeIdList.get(0)*/1, yearID},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -114,7 +114,7 @@ public class storeService {
 				});
 		
 		List<List<Object>> results = jdbcTemplate.query(
-				weeklysalesReportSQL, new Object[]{yearID, monthID, storeIdList.get(0)},
+				weeklysalesReportSQL, new Object[]{yearID, monthID, /*storeIdList.get(0)*/1},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -144,7 +144,7 @@ public class storeService {
 		
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
-		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{storeIdList.get(0)});
+		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{/*storeIdList.get(0)*/1});
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
 		SqlRowSetMetaData mData = data.getMetaData();
 		while(data.next())

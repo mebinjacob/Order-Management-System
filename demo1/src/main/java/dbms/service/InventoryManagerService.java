@@ -16,6 +16,7 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Service;
 
 import dbms.dao.Item;
+import dbms.dao.regionSale;
 import dbms.dto.IvmgmtPieChartDTO;
 
 @Service
@@ -39,6 +40,9 @@ public class InventoryManagerService {
 	@Value("${invweeklyreport.sql}")
 	String invweeklySalesReportSQL;
 	
+	@Value("${inventory_regionWisesale.sql}")
+	String inventory_regionWisesale;	
+	
 //	public List<Item> getOrdersAndPayment(int pageNo) {
 //		
 //	}
@@ -47,6 +51,23 @@ public class InventoryManagerService {
 		
 		return false;
 	}
+
+	public List<regionSale> getRegionWiseProducts(int pageNo) {
+		List<regionSale> results = jdbcTemplate.query(
+				inventory_regionWisesale, new Object[]{pageNo * 500},
+				new RowMapper<regionSale>() {
+					@Override
+					public regionSale mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+						regionSale item = new regionSale();
+						item.setSales(Double.parseDouble((String)rs.getObject(1)));
+						item.setRegion((String)rs.getObject(2));
+						return item;
+					}
+				});
+		return results;
+	}
+
 	
 	public List<Item> getAllProducts(int pageNo) {
 		List<Item> results = jdbcTemplate.query(

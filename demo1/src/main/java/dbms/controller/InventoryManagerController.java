@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import utils.OrderMgmtUtils;
+import dbms.dao.regionSale;
 import dbms.service.InventoryManagerService;
 
 @Controller
@@ -65,6 +66,11 @@ public class InventoryManagerController {
 	@RequestMapping("/getWeeklySalesReport")
 	public @ResponseBody List<List<Object>> getWeeklySalesReport(@RequestParam String year, @RequestParam String month, @RequestParam String week) {
 		return inventoryManagerService.getWeeklySalesReport(year, month, week);
+	}
+	
+	@RequestMapping("/getRegionSalesReport")
+	public @ResponseBody List<regionSale> getRegionSalesReport(@RequestParam String year, @RequestParam String month) {
+		return inventoryManagerService.getRegionWiseProducts(1);
 	}
 	
 	

@@ -71,6 +71,28 @@
 			
 			
 		});
+		
+		$("#loadDataRegionWise").click(function(){
+			$.get("/inventoryManager/getRegionSalesReport",{ "year":$("#yearid3").val(), "month":$("#monthid3").val()}, function(dataFromServer){
+
+	       		 var data = new google.visualization.DataTable();
+	       	     data.addColumn('string', 'Region Name');
+	        	     data.addColumn('number', 'Sales');
+	              data.addRows(dataFromServer);
+	       		  console.log(dataFromServer);
+	       		  //data.addRows(dataFromServer);
+	       		  var options = {
+	       		            title: 'Region Wise Sales report of stores in specific months!!',
+	       		            legend: { position: 'none' },
+	       		          };
+	       		   var chart = new google.visualization.ColumnChart(document.getElementById('regionWiseSalesReport_div'));
+	       		   chart.draw(data, options);
+	       	  });
+
+			
+			
+			
+		});
     	         	  
 		
 		
@@ -121,6 +143,13 @@
 					Week :- <input type="text" id="weekid" name="month"></input> 
   					<input type="submit" id="loadDataWeekly" value="Submit"></input>
 					<div id="weeklySalesReport_div" style="width: 400; height: 300"></div>
+					
+					<h2>Region Wise Sales Report</h2>
+					<br></br>					
+					Year :- <input type="text" id="yearid3" name="month"></input> 
+					Month :- <input type="text" id="monthid3" name="month"></input>					 
+  					<input type="submit" id="loadDataRegionWise" value="Submit"></input>
+					<div id="regionWiseSalesReport_div" style="width: 400; height: 300"></div>
 				</div>
 
 				<div>

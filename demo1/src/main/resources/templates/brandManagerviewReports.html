@@ -27,6 +27,52 @@
 				dataFromServer) {
 			t.rows.add(dataFromServer).draw();
 		});
+		
+		$("#loadData").click(function(){
+			$.get("/brandManager/getMonthlySalesReport",{"month":$("#monthid").val(), "year":$("#yearid").val()}, function(dataFromServer){
+
+	       		 var data = new google.visualization.DataTable();
+	       	     data.addColumn('string', 'Store Name');
+	        	     data.addColumn('number', 'Qty');
+	              data.addRows(dataFromServer);
+	       		  console.log(dataFromServer);
+	       		  //data.addRows(dataFromServer);
+	       		  var options = {
+	       		            title: 'Sales report of stores in specific months!!',
+	       		            legend: { position: 'none' },
+	       		          };
+	       		   var chart = new google.visualization.ColumnChart(document.getElementById('salesReport_div'));
+	       		   chart.draw(data, options);
+	       	  });
+
+			
+			
+			
+		});
+		
+		
+		$("#loadDataWeekly").click(function(){
+			$.get("/brandManager/getWeeklySalesReport",{ "year":$("#yearid2").val(), "month":$("#monthid2").val(), "week":$("#weekid").val()}, function(dataFromServer){
+
+	       		 var data = new google.visualization.DataTable();
+	       	     data.addColumn('string', 'Store Name');
+	        	     data.addColumn('number', 'Qty');
+	              data.addRows(dataFromServer);
+	       		  console.log(dataFromServer);
+	       		  //data.addRows(dataFromServer);
+	       		  var options = {
+	       		            title: 'Weekly Sales report of stores in specific months!!',
+	       		            legend: { position: 'none' },
+	       		          };
+	       		   var chart = new google.visualization.ColumnChart(document.getElementById('weeklySalesReport_div'));
+	       		   chart.draw(data, options);
+	       	  });
+
+			
+			
+			
+		});
+		
 	});
 	google.setOnLoadCallback(drawInventoryMgmtPieChart);
 </script>
@@ -59,6 +105,19 @@
 					<h2>Charts section</h2>
 					<!-- 	<div id="chart_div" style="width: 400; height: 300"></div> -->
 					<div id="ivmgmt_chart_div" style="width: 400; height: 300"></div>
+					<h2>Monthly Sales Report</h2><br></br>
+					Year :- <input type="text" id="yearid" name="month"></input> 
+					Month :- <input type="text" id="monthid" name="month"></input> 					
+  					<input type="submit" id="loadData" value="Submit"></input>	
+					<div id="salesReport_div" style="width: 400; height: 300"></div>
+  										
+					<h2>Weekly Sales Report</h2>
+					<br></br>					
+					Year :- <input type="text" id="yearid2" name="month"></input> 
+					Month :- <input type="text" id="monthid2" name="month"></input>
+					Week :- <input type="text" id="weekid" name="month"></input> 
+  					<input type="submit" id="loadDataWeekly" value="Submit"></input>
+					<div id="weeklySalesReport_div" style="width: 400; height: 300"></div>
 				</div>
 
 				<div>

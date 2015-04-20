@@ -19,6 +19,7 @@
 			$(this).toggleClass("active").next().slideToggle("slow");
 			return false;
 		});
+		
 	});
 </script>
 <!--Load the AJAX API-->
@@ -29,10 +30,9 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var t = $('#example').DataTable();
-    var counter = 1;
- 	
-    $.get("/brandManager/productList", function(dataFromServer){
-    	t.rows.add(dataFromServer).draw();
+    $.get("/inventoryManager/productListBasedOnReview", function(
+			dataFromServer) {
+		t.rows.add(dataFromServer).draw();
     });
  
 } );
@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 			<div class="menu">
 				<ul>
-					<li><a href="/brandManager/productList" >Main page</a></li>
+					<li><a href="/brandManager/" >Main page</a></li>
 					<li><a href="/brandManager/viewReports">View Reports</a></li>
 					<li><a href="/brandManager/addCategory" class="selected">Add Category</a></li>
 				</ul>

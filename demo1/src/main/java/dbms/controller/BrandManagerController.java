@@ -53,5 +53,16 @@ public class BrandManagerController {
 		return OrderMgmtUtils.createRows(brandManagerService.getAllProducts(1));
 	}
 	
+	@RequestMapping("/getMonthlySalesReport")
+	public @ResponseBody List<List<Object>> getMonthlySalesReport(@RequestParam String month, @RequestParam String year) {
+		return brandManagerService.getMonthlySalesReport(month, year);
+	}
+
+	@RequestMapping("/getWeeklySalesReport")
+	public @ResponseBody List<List<Object>> getWeeklySalesReport(@RequestParam String year, @RequestParam String month, @RequestParam String week) {
+		return brandManagerService.getWeeklySalesReport(year, month, week);
+	}
+
+	
 
 }

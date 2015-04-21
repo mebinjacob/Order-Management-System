@@ -49,6 +49,9 @@ public class BrandManagerService {
 	@Value("${brndMgrgetStockReport.sql}")
 	String brndStockReportSQL;
 	
+	@Value("${brndRegionSale.sql}")
+	String brandRegionSale;
+	
 	public void addCategory(String category, String subCategory){
 		Object[] params = new Object[] {category};
 		int[] types = new int[] {Types.VARCHAR};
@@ -171,6 +174,29 @@ public List<List<Object>> getWeeklySalesReport(String year, String month, String
 		return results;
 	}
 
+public List<List<Object>> getRegionSaleReport(String brandName, String year, String month){
+	
+	List<List<Object>> results = jdbcTemplate.query(
+			brandRegionSale, new Object[]{brandName, brandName, month, year},
+			new RowMapper<List<Object>>() {
+				@Override
+				public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
+					
+					List<Object> regionSalesReportList = new ArrayList<Object>();
+					regionSalesReportList.add(rs.getString(1).toString());
+					if(null != rs.getString(2)){
+						
+						regionSalesReportList.add(rs.getInt(2));
+					}
+					else{
+						regionSalesReportList.add(0);
+					}
+					
+					return regionSalesReportList;
+				}
+			});
+	return results;
+}
 
 public List<List<Object>> getStockReport(String brandName){
 	

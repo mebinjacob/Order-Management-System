@@ -68,6 +68,10 @@ public class BrandManagerController {
 		return brandManagerService.getWeeklySalesReport(year, month, week);
 	}
 
+	@RequestMapping("/getRegionSaleReport")
+	public @ResponseBody List<List<Object>> getRegionSalesReport(@RequestParam String brandName, @RequestParam String year, @RequestParam String month) {
+		return brandManagerService.getRegionSaleReport(brandName, year, month);
+	}
 	
 
 }

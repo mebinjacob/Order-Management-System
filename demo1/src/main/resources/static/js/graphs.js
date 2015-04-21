@@ -21,7 +21,7 @@
   	  
 
         // Set chart options
-        var options = {'title':'How Much Pizza I Ate Last Night',
+        var options = {'title':'Stock Of Products in Inventory',
                        'width':400,
                        'height':300};
 
@@ -30,7 +30,26 @@
         chart.draw(data, options);
       	  }); 
     }
-      
+      function drawRegionsalePieChart(){
+    	  $.get("/brandManager/getRegionSaleReport",{ "brandName":$("#brandName_1").val(),"year":$("#regionYear").val(), "month":$("#regionMonth").val()}, function(dataFromServer)
+    			  {
+    		  var data = new google.visualization.DataTable();
+              
+              data.addColumn('string', 'Region');
+        	    data.addColumn('number', 'Sale');
+              data.addRows(dataFromServer);
+        	  
+
+              // Set chart options
+              var options = {'title':'Region Wise Sale of the Brand',
+                             'width':400,
+                             'height':300};
+
+              // Instantiate and draw our chart, passing in some options.
+              var chart = new google.visualization.PieChart(document.getElementById('regionSaleReport_div'));
+              chart.draw(data, options);
+            	  }); 
+    	  }
       
       function drawScatterChart() {
     	  $.get("/getPieChartData", function(dataFromServer){

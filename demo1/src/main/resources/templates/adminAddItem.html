@@ -47,12 +47,14 @@ $(document).ready(function() {
 			<div class="title">
 				<a href="#">Order Management System - Admin</a>
 			</div>
-
+			<div class="header_right">
+				<a href="/admin/logout" class="logout">Logout</a>
+			</div>
 
 
 			<div class="menu">
 				<ul>
-					<li><a href="/admin/productList" >Main page</a></li>
+					<!-- <li><a href="/admin" >Main page</a></li> -->
 					<li><a href="/admin/addCategory" >Add Category</a></li>
 					<li><a href="/admin/addUser" >Add User</a></li>
 					<li><a href="/admin/addItem" class="selected">Add Item</a></li>
@@ -69,7 +71,7 @@ $(document).ready(function() {
 		        <h3>Tab one title</h3>
 		        <div class="form">
 			             <div class="form_row">
-			           		<label>Is Active</label>
+			           		<label>Is Active*</label>
 							<input type="text" name="isActive" class="form_input"></input><br></br>
 			            </div>
 			            <div class="form_row">
@@ -77,13 +79,21 @@ $(document).ready(function() {
 							<input type="text" name="sellingPrice" class="form_input"></input><br></br>
 			            </div>
 			            <div class="form_row">
-			            	<label>Item Name</label>
+			            	<label>Item Name*</label>
 							<input type="text" name="itemName" class="form_input"></input><br></br>
 			            </div>
 			            <div class="form_row">
 			            	<label>Description</label>
 							<input type="text" name="description" class="form_input"></input><br></br>
 			            </div>			           
+			            <div class="form_row">
+			            	<label>Discount</label>
+							<input type="text" name="discount_id" class="form_input"></input><br></br>
+			            </div>
+			            <div class="form_row">
+			            	<label>Order</label>
+							<input type="text" name="order_id" class="form_input"></input><br></br>
+			            </div>
 			            <div class="form_row">
 			            	<input type="submit" class="form_submit" value="Submit" />
 			            </div> 

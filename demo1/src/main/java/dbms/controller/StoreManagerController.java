@@ -31,11 +31,18 @@ public class StoreManagerController {
 	@Autowired
 	storeService store_service;
 	
+	@RequestMapping("/logout")
+	public String logout()
+	{
+		LoginService.roleName = null;
+		LoginService.userID = null;
+		LoginService.userName = null;
+		return "login";
+	}
+	
 	@RequestMapping("/getStoreItem")
 	public @ResponseBody List<List<String>> getStoreItems()
 	{
-		LoginService loginService = new LoginService();
-		//return store_service.selectItem_FromStore(loginService.locationID);
 		return store_service.selectItem_FromStore();
 	}
 	

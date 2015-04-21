@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import utils.OrderMgmtUtils;
 import dbms.dao.regionSale;
 import dbms.service.InventoryManagerService;
+import dbms.service.LoginService;
 
 @Controller
 @RequestMapping("/inventoryManager")
@@ -25,6 +26,15 @@ public class InventoryManagerController {
 				.getAllProducts(1));
 	}
 
+	@RequestMapping("/logout")
+	public String logout()
+	{
+		LoginService.roleName = null;
+		LoginService.userID = null;
+		LoginService.userName = null;
+		return "login";
+	}
+	
 	@RequestMapping("/viewordersAndPayment")
 	public String viewOrdersAndPayment() {
 		return "ivmgmtPaymentAndOrder";

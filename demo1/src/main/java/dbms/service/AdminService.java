@@ -2,10 +2,13 @@ package dbms.service;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
@@ -21,6 +24,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
+import scala.Array;
 import dbms.dao.Item;
 
 @Service
@@ -32,14 +36,17 @@ public class AdminService {
 	@Value("${adminProducts.sql}")
 	String adminProducts;
 	
-	@Value("${adminAddCategory.sql}")
-	String addCateory;
+	@Value("${brndMgrAddCategory.sql}")
+	String addCategory;
 	
 	@Value("${adminAddUser.sql}")
 	String addUser;
 	
 	@Value("${adminAddItem.sql}")
 	String addItem;
+	
+	@Value("${brndMgrAddSubCategory.sql}")
+	String brndMgrAddSubCategorySQL;
 	
 	/*public void test(){
         jdbcTemplate.execute("create table customers(" +
@@ -127,24 +134,42 @@ public class AdminService {
 		return results;
 	}
 	
-	public void addCategory(String category, String subCategory){
-		Object[] params = new Object[] { category, subCategory };
-		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR};
-		jdbcTemplate.update(addCateory, params, types);
-		System.out.println("row inserted.");
-		
+	public List<List<String>> getTupuleCount() throws SQLException{
+		String sql = "SELECT COUNT(*) FROM STORE_ITEM_DETAILS";
+		int count = jdbcTemplate.queryForInt(sql);
+		List<String> rs = new ArrayList<String>();
+		rs.add("Number of Rows in STORE ITEM DETAILS");
+		rs.add(Integer.toString(count));
+		List<List<String>> queriedData = new ArrayList<List<String>>();
+		queriedData.add(rs);
+		return queriedData;
 	}
 	
-	public void addUser(String firstName, String middleName, String lastName, Integer contactNumber, String password, String street, String city, String state, Integer zipCode, String email){
-		Object[] params = new Object[] {firstName, middleName, lastName, contactNumber, password, street, city, state, zipCode, email};
-		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR};
+	public void addCategory(String category, String subCategory){
+		Object[] params = new Object[] {category};
+		int[] types = new int[] {Types.VARCHAR};
+		jdbcTemplate.update(addCategory, category);
+		//jdbcTemplate.update(addCategory, params, types);
+		System.out.println("row inserted.");
+		System.out.println();
+		if(subCategory != null)
+		{			
+			Object[] params1 = new Object[] { subCategory };
+//			int[] types1 = new int[] {  Types.VARCHAR};			
+			jdbcTemplate.update(brndMgrAddSubCategorySQL, params1);			
+		}
+	}
+	
+	public void addUser(			String firstName, String middleName, String lastName, Integer contactNumber, String password, String role, String street, String city, String state, Integer zipCode, String email){
+		Object[] params = new Object[] {firstName, middleName, lastName, contactNumber, password, Integer.parseInt(role), street, city, state, zipCode, email};
+		int[] types = new int[] { Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.VARCHAR};
 		jdbcTemplate.update(addUser, params, types);
 		System.out.println("row inserted.");		
 	}
 	
-	public void addItem(String isActive, Double sellingPrice, String itemName, String description){
-		Object[] params = new Object[] {isActive, sellingPrice, itemName, description};
-		int[] types = new int[] { Types.VARCHAR, Types.DOUBLE, Types.VARCHAR, Types.VARCHAR};
+	public void addItem(String isActive, Double sellingPrice, String itemName, String description, Integer discount_id, Integer order_id){
+		Object[] params = new Object[] {isActive, sellingPrice, itemName, description, discount_id, order_id};
+		int[] types = new int[] { Types.VARCHAR, Types.DOUBLE, Types.VARCHAR, Types.VARCHAR, Types.INTEGER, Types.INTEGER};
 		jdbcTemplate.update(addItem, params, types);
 		System.out.println("row inserted.");		
 	}

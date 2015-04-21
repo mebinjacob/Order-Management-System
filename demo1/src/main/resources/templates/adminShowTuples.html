@@ -19,7 +19,6 @@
 			$(this).toggleClass("active").next().slideToggle("slow");
 			return false;
 		});
-		
 	});
 </script>
 <!--Load the AJAX API-->
@@ -30,9 +29,10 @@
 <script type="text/javascript">
 $(document).ready(function() {
     var t = $('#example').DataTable();
-    $.get("/inventoryManager/productListBasedOnReview", function(
-			dataFromServer) {
-		t.rows.add(dataFromServer).draw();
+    var counter = 1;
+ 	
+    $.get("/admin/fetchallTupules", function(dataFromServer){
+    	t.rows.add(dataFromServer).draw();
     });
  
 } );
@@ -45,18 +45,20 @@ $(document).ready(function() {
 
 		<div class="header">
 			<div class="title">
-				<a href="#">Order Management System - Brand Manager</a>
+				<a href="#">Order Management System - Admin</a>
 			</div>
 			<div class="header_right">
-				<a href="/brandManager/logout" class="logout">Logout</a>
+				<a href="/admin/logout" class="logout">Logout</a>
 			</div>
 
 
 			<div class="menu">
 				<ul>
-					<li><a href="/brandManager/" >Main page</a></li>
-					<li><a href="/brandManager/viewReports">View Reports</a></li>
-					<li><a href="/brandManager/addCategory" class="selected">Add Category</a></li>
+					
+					<li><a href="/admin/addCategory" >Add Category</a></li>
+					<li><a href="/admin/addUser" >Add User</a></li>
+					<li><a href="/admin/addItem" >Add Item</a></li>
+					<li><a href="/admin/allTuples" class = "selected">All Tuples</a></li>
 				</ul>
 			</div>
 
@@ -65,29 +67,21 @@ $(document).ready(function() {
 
 		<div class="center_content">
 
-<form action="/brandManager/saveCategory">
-		<div id="tab1" class="tabcontent">
-		        <h3>Tab one title</h3>
-		        <div class="form">
-			             <div class="form_row">
-			           		<label>Category</label>
-							<input type="text" name="category" class="form_input"></input><br></br>
-			            </div>
-			            <div class="form_row">
-			            	<label>Sub-Category</label>
-							<input type="text" name="subCategory" class="form_input"></input><br></br>
-			            </div>
-			            <div class="form_row">
-			            	<input type="submit" class="form_submit" value="Submit" />
-			            </div> 
-			            <div class="clear"></div>
-		        </div>
-		    </div>
-</form>
+			<div id="right_wrap">
+				<div>
+					<h2>Tables section</h2>
 
 
-
- 
+					<table id="example" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Table Name</th>
+								<th>Number of Tuples</th>								
+							</tr>
+						</thead>
+					</table>
+				</div>
+			</div>
 
 			<div class="clear"></div>
 			<!--end of center_content-->

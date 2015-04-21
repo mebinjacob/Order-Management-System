@@ -65,6 +65,9 @@ $(document).ready(function() {
         }
     });
  
+    
+    
+    
     $("#viewRequest_Click").click(function () {
         var t = $('#inventoryRequest').DataTable();
         var counter = 1;
@@ -190,8 +193,7 @@ $(document).ready(function() {
 			</div>
 
 			<div class="header_right">
-				Welcome <a href="#" class="settings">Settings</a> <a href="#"
-					class="logout">Logout</a>
+				<a href="/storeManager/logout" class="logout">Logout</a>
 			</div>
 
 			<div class="menu">
@@ -269,7 +271,7 @@ $(document).ready(function() {
 								<select class="form_select" name="typeOfReport" id = "typeOfReport">
 									<option value = "WSR" >Weekly Sales Report</option>
 									<option value = "MSR" >Monthly Sales Report</option>
-									<option value = "PSR" >Product Sales Report</option>
+									<option value = "PSR" >Monthly Growth Report</option>
 								</select>
 						</div>
 						<div class="form_row" id = "WSR_Input">

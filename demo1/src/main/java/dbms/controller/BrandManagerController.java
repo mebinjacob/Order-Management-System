@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import utils.OrderMgmtUtils;
 import dbms.service.BrandManagerService;
+import dbms.service.LoginService;
 
 @Controller
 @RequestMapping("/brandManager")
@@ -27,6 +28,15 @@ public class BrandManagerController {
 	@RequestMapping("/viewReports")
 	public String viewReport(){
 		return "brandManagerviewReports";
+	}
+	
+	@RequestMapping("/logout")
+	public String logout()
+	{
+		LoginService.roleName = null;
+		LoginService.userID = null;
+		LoginService.userName = null;
+		return "login";
 	}
 	
 	@RequestMapping("/getStockReport")

@@ -56,7 +56,7 @@ public class InventoryManagerService {
 
 	public List<regionSale> getRegionWiseProducts(int pageNo) {
 		List<regionSale> results = jdbcTemplate.query(
-				inventory_regionWisesale, new Object[]{pageNo * 500},
+				inventory_regionWisesale, new Object[]{"04", "2012"},
 				new RowMapper<regionSale>() {
 					@Override
 					public regionSale mapRow(ResultSet rs, int rowNum) throws SQLException {

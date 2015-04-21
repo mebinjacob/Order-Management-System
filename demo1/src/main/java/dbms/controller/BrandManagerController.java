@@ -20,8 +20,8 @@ public class BrandManagerController {
 	BrandManagerService brandManagerService;
 	
 	@RequestMapping("/productList")
-	public @ResponseBody List<List<? extends Object>> viewProductList(){
-		return OrderMgmtUtils.createRows(brandManagerService.getAllProducts(1));
+	public @ResponseBody List<List<String>> viewProductList(){
+		return brandManagerService.getAllProducts(1);
 	}
 	
 	
@@ -83,5 +83,13 @@ public class BrandManagerController {
 		return brandManagerService.getRegionSaleReport(brandName, year, month);
 	}
 	
-
+	@RequestMapping("/getCategoryList")
+	public @ResponseBody List<List<String>> getCategoryList() {
+		return brandManagerService.getCategoryList();
+	}
+	
+	@RequestMapping("/getsubCategoryList")
+	public @ResponseBody List<List<String>> getsubCategoryList() {
+		return brandManagerService.getsubCategoryList();
+	}
 }

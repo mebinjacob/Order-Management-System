@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
 import dbms.dao.*;
@@ -52,6 +54,13 @@ public class BrandManagerService {
 	@Value("${brndRegionSale.sql}")
 	String brandRegionSale;
 	
+	@Value("${getCategory.sql}")
+	String getCategorySQL;
+	
+	@Value("${getsubCategory.sql}")
+	String getsubCategorySQL;
+	
+	
 	public void addCategory(String category, String subCategory){
 		Object[] params = new Object[] {category};
 		int[] types = new int[] {Types.VARCHAR};
@@ -66,25 +75,20 @@ public class BrandManagerService {
 			jdbcTemplate.update(brndMgrAddSubCategorySQL, params1);			
 		}
 	}
-	public List<Item> getAllProducts(int pageNo) {
-		List<Item> results = jdbcTemplate.query(
-				brndMgrProducts, new Object[]{pageNo * 500},
-				new RowMapper<Item>() {
-					@Override
-					public Item mapRow(ResultSet rs, int rowNum) throws SQLException {
-
-						Item item = new Item();
-//						item.setItemId(Integer.parseInt((String)rs.getObject(1)));
-						item.setActive((String)rs.getObject(2));
-						item.setSellingPrice(rs.getObject(3).toString());
-						item.setName((String)rs.getObject(4));
-						
-						item.setDiscountId(rs.getObject(6).toString());
-						item.setOrderId((String)rs.getObject(7));
-						return item;
-					}
-				});
-		return results;
+	public List<List<String>> getAllProducts(int pageNo) {
+		List<List<String>> queriedData;
+		queriedData = new ArrayList<List<String>>();
+		SqlRowSet data = jdbcTemplate.queryForRowSet(brndMgrProducts);
+		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
+		SqlRowSetMetaData mData = data.getMetaData();
+		while(data.next())
+		{
+			List<String> colData = new ArrayList<String>();
+			for(int i = 1; i <= mData.getColumnCount(); i++)
+				colData.add(data.getString(i));
+			queriedData.add(colData);
+		}
+		return queriedData;
 	}
 	
 	
@@ -196,6 +200,40 @@ public List<List<Object>> getRegionSaleReport(String brandName, String year, Str
 				}
 			});
 	return results;
+}
+
+public List<List<String>> getCategoryList(){
+	
+	List<List<String>> queriedData;
+	queriedData = new ArrayList<List<String>>();
+	SqlRowSet data = jdbcTemplate.queryForRowSet(getCategorySQL);
+	//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
+	SqlRowSetMetaData mData = data.getMetaData();
+	while(data.next())
+	{
+		List<String> colData = new ArrayList<String>();
+		for(int i = 1; i <= mData.getColumnCount(); i++)
+			colData.add(data.getString(i));
+		queriedData.add(colData);
+	}
+	return queriedData;
+}
+
+public List<List<String>> getsubCategoryList(){
+	
+	List<List<String>> queriedData;
+	queriedData = new ArrayList<List<String>>();
+	SqlRowSet data = jdbcTemplate.queryForRowSet(getsubCategorySQL);
+	//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
+	SqlRowSetMetaData mData = data.getMetaData();
+	while(data.next())
+	{
+		List<String> colData = new ArrayList<String>();
+		for(int i = 1; i <= mData.getColumnCount(); i++)
+			colData.add(data.getString(i));
+		queriedData.add(colData);
+	}
+	return queriedData;
 }
 
 public List<List<Object>> getStockReport(String brandName){

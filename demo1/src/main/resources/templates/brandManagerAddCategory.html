@@ -29,11 +29,17 @@
 <script type="text/javascript" src="../../js/graphs.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-    var t = $('#example').DataTable();
-    $.get("/inventoryManager/productListBasedOnReview", function(
-			dataFromServer) {
-		t.rows.add(dataFromServer).draw();
-    });
+		var t = $('#Category').DataTable();
+	    var counter = 1;
+	    $.get("/brandManager/getCategoryList", function(dataFromServer){
+	    	t.rows.add(dataFromServer).draw();
+	    });
+	    
+		var f = $('#subCategory').DataTable();
+	    var counter = 1;
+	    $.get("/brandManager/getsubCategoryList", function(dataFromServer){
+	    	f.rows.add(dataFromServer).draw();
+	    });
  
 } );
 
@@ -64,7 +70,29 @@ $(document).ready(function() {
 
 
 		<div class="center_content">
-
+	<div id="viewCategory">
+					<h2>List of Category of Items</h2>
+					<table id="Category" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Category ID</th>
+								<th>Category Name</th>
+							</tr>
+						</thead>
+					</table>
+	</div>	
+	<div id="viewsubCategory">
+					<h2>List of Sub Category</h2>
+					<table id="subCategory" class="display" cellspacing="0" width="100%">
+						<thead>
+							<tr>
+								<th>Category ID</th>
+								<th>Sub-Category ID</th>
+								<th>Sub-Category Name</th>
+							</tr>
+						</thead>
+					</table>
+	</div>	
 <form action="/brandManager/saveCategory">
 		<div id="tab1" class="tabcontent">
 		        <h3>Tab one title</h3>

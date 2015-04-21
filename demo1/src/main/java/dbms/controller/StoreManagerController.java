@@ -42,8 +42,6 @@ public class StoreManagerController {
 	@RequestMapping("/getStoreInventoryRequests")
 	public @ResponseBody List<List<String>> getStore_InventoryRequest()
 	{
-		LoginService loginService = new LoginService();
-		//return store_service.selectInventoryRequest_Store(loginService.locationID);
 		return store_service.selectInventoryRequest_Store();
 	}
 	
@@ -56,10 +54,10 @@ public class StoreManagerController {
 	}
 	
 	@RequestMapping("/addInventory")
-	public @ResponseBody String addInventory(@RequestParam("empId") String empId, @RequestParam("itemId") String itemId, 
+	public String addInventory(@RequestParam("itemId") String itemId, 
 											@RequestParam("qty") int qty, @RequestParam("Comments") String comments)
 	{
-		store_service.addInventoryRequst(empId, itemId, qty, comments);
+		store_service.addInventoryRequst(itemId, qty, comments);
 		return "storeManager";
 	}
 	@RequestMapping("/getStoresList")

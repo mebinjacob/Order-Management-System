@@ -66,7 +66,7 @@ public class storeService {
 				});
 		
 		List<List<Object>> results = jdbcTemplate.query(
-				monthlySalesReportSQL, new Object[]{yearID, /*storeIdList.get(0)*/1},
+				monthlySalesReportSQL, new Object[]{yearID, storeIdList.get(0)},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -91,7 +91,7 @@ public class storeService {
 					}
 				});
 		List<List<Object>> results = jdbcTemplate.query(
-				monthlyStore_Growth, new Object[]{/*storeIdList.get(0)*/1, yearID,/*storeIdList.get(0)*/1, yearID},
+				monthlyStore_Growth, new Object[]{storeIdList.get(0), yearID,storeIdList.get(0), yearID},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -117,9 +117,8 @@ public class storeService {
 						return rs.getObject(1).toString();
 					}
 				});
-		
 		List<List<Object>> results = jdbcTemplate.query(
-				weeklysalesReportSQL, new Object[]{yearID, monthID, /*storeIdList.get(0)*/1},
+				weeklysalesReportSQL, new Object[]{yearID, monthID, storeIdList.get(0)},
 				new RowMapper<List<Object>>() {
 					@Override
 					public List<Object> mapRow(ResultSet rs, int rowNum) throws SQLException {
@@ -149,7 +148,7 @@ public class storeService {
 		
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
-		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{/*storeIdList.get(0)*/1});
+		SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql, new Object[]{storeIdList.get(0)});
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(storeList_sql);
 		SqlRowSetMetaData mData = data.getMetaData();
 		while(data.next())
@@ -172,7 +171,7 @@ public class storeService {
 						return rs.getObject(1).toString();
 					}
 				});
-		
+		int storeID = Integer.parseInt(storeIdList.get(0));
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
 		SqlRowSet data = jdbcTemplate.queryForRowSet(invReqSql, new Object[]{storeIdList.get(0)});
@@ -210,7 +209,7 @@ public class storeService {
 		return queriedData;
 	}
 	
-	public void addInventoryRequst(String empId, String itemId, int qty, String Comments)
+	public void addInventoryRequst(String itemId, int qty, String Comments)
 	{
 		int count = jdbcTemplate.queryForInt(inventory_Count);
 		int reqId = ++count;
@@ -222,7 +221,7 @@ public class storeService {
 						return rs.getObject(1).toString();
 					}
 				});
-		Object[] params = new Object[] { reqId, Integer.parseInt(empId), Integer.parseInt(itemId), qty, Comments, "Pending", /*Integer.parseInt(storeIdList.get(0))*/ 1};
+		Object[] params = new Object[] { reqId, Integer.parseInt(LoginService.userID), Integer.parseInt(itemId), qty, Comments, "Pending", /*Integer.parseInt(storeIdList.get(0))*/ 1};
 		int[] types = new int[] { Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.INTEGER, Types.VARCHAR, Types.VARCHAR, Types.INTEGER};
 		int nrows = jdbcTemplate.update(addInvsql, params, types);
 		System.out.print("The number of rows Affecte" + nrows);
@@ -240,6 +239,7 @@ public class storeService {
 				});
 		List<List<String>> queriedData;
 		queriedData = new ArrayList<List<String>>();
+		//int storeID = Integer.parseInt(storeIdList.get(0));
 		SqlRowSet data = jdbcTemplate.queryForRowSet(minstore_sql, new Object[]{storeIdList.get(0)});
 		//SqlRowSet data = jdbcTemplate.queryForRowSet(minstore_sql);
 		SqlRowSetMetaData mData = data.getMetaData();

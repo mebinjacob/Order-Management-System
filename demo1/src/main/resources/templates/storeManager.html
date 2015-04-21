@@ -87,9 +87,9 @@ $(document).ready(function() {
             $("#viewReports").hide();
             $("#tab1").hide();
             $("#tabsmenu").hide();
-            $.get("/getminStoreStatistics", function(dataFromServer){
+            $.get("/storeManager/getminStoreStatistics", function(dataFromServer){
             t.rows.add(dataFromServer).draw();	}) 
-            $.get("/getmaxStoreStatistics", function(dataFromServer){
+            $.get("/storeManager/getmaxStoreStatistics", function(dataFromServer){
             f.rows.add(dataFromServer).draw();	}) });
     
     $("#viewReport_click").click(function(){
@@ -300,12 +300,6 @@ $(document).ready(function() {
 					<div id="tab1" class="tabcontent">
 						<h3>Fill the Form to Request Inventory</h3>
 						<div class="form">
-
-							<div class="form_row">
-								<label>Employee ID:</label> <input type="text" class="form_input"
-									name="empId" />
-							</div>
-
 							<div class="form_row">
 								<label>Item ID:</label> <input type="text" class="form_input"
 									name="itemId" />

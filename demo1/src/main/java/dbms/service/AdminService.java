@@ -24,7 +24,7 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
 import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
-import scala.Array;
+//import scala.Array;
 import dbms.dao.Item;
 
 @Service

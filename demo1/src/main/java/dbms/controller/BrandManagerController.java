@@ -29,6 +29,11 @@ public class BrandManagerController {
 		return "brandManagerviewReports";
 	}
 	
+	@RequestMapping("/getStockReport")
+	public @ResponseBody List<List<Object>> getStockReport(@RequestParam("brandName") String brandName){
+		return brandManagerService.getStockReport(brandName);
+	}
+	
 	@RequestMapping("/addCategory")
 	public String addCategory(){
 		return "brandManagerAddCategory";

@@ -13,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.support.rowset.SqlRowSet;
+import org.springframework.jdbc.support.rowset.SqlRowSetMetaData;
 import org.springframework.stereotype.Service;
 
 import dbms.dao.Item;
@@ -42,10 +44,10 @@ public class InventoryManagerService {
 	
 	@Value("${inventory_regionWisesale.sql}")
 	String inventory_regionWisesale;	
+
+	@Value("${storeIdSQL_InvMgr.sql}")
+	String storeIdSQL_InvMgr;	
 	
-//	public List<Item> getOrdersAndPayment(int pageNo) {
-//		
-//	}
 	
 	public boolean saveOrder(String itemid, String quantity, String comment, String price){
 		
@@ -67,7 +69,23 @@ public class InventoryManagerService {
 				});
 		return results;
 	}
+	
+	public List<List<String>> getInventoryRequest_Store()
+	{
 
+		List<List<String>> queriedData;
+		queriedData = new ArrayList<List<String>>();
+		SqlRowSet data = jdbcTemplate.queryForRowSet(storeIdSQL_InvMgr);
+		SqlRowSetMetaData mData = data.getMetaData();
+		while(data.next())
+		{
+			List<String> colData = new ArrayList<String>();
+			for(int i = 1; i <= mData.getColumnCount(); i++)
+				colData.add(data.getString(i));
+			queriedData.add(colData);
+		}
+		return queriedData;
+	}
 	
 	public List<Item> getAllProducts(int pageNo) {
 		List<Item> results = jdbcTemplate.query(

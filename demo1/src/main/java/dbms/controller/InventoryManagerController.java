@@ -45,6 +45,11 @@ public class InventoryManagerController {
 		return "invmgmtviewReports";
 	}
 
+	@RequestMapping("/viewRequest")
+	public String getInventoryRequest() {
+		return "inventorymgmtViewRequest";
+	}
+	
 	@RequestMapping("/getInventoryMgmtPieChartData")
 	public @ResponseBody List<List<? extends Object>> getPieChartData() {
 		return OrderMgmtUtils.createRows(inventoryManagerService
@@ -72,8 +77,11 @@ public class InventoryManagerController {
 	public @ResponseBody List<regionSale> getRegionSalesReport(@RequestParam String year, @RequestParam String month) {
 		return inventoryManagerService.getRegionWiseProducts(1);
 	}
-	
-	
+		
+	@RequestMapping("/getRequestList")
+	public @ResponseBody List<List<String>> getRequestList(){
+		return inventoryManagerService.getInventoryRequest_Store();
+	}
 	/*@RequestMapping("/ordersAndPayment")
 	public @ResponseBody List<List<? extends Object>> ordersAndPayment() {
 		return OrderMgmtUtils.createRows(inventoryManagerService

@@ -21,13 +21,7 @@
 		$(".trigger").click(function() {
 			$(this).toggleClass("active").next().slideToggle("slow");
 			return false;
-		});
-		var t = $('#example').DataTable();
-		$.get("/inventoryManager/productListBasedOnReview", function(
-				dataFromServer) {
-			t.rows.add(dataFromServer).draw();
-		});
-		
+		});		
 		$("#loadData").click(function(){
 			$.get("/brandManager/getMonthlySalesReport",{"month":$("#monthid").val(), "year":$("#yearid").val()}, function(dataFromServer){
 
@@ -65,6 +59,27 @@
 	       		            legend: { position: 'none' },
 	       		          };
 	       		   var chart = new google.visualization.ColumnChart(document.getElementById('weeklySalesReport_div'));
+	       		   chart.draw(data, options);
+	       	  });
+
+			
+			
+			
+		});
+		$("#loadDataStock").click(function(){
+			$.get("/brandManager/getStockReport",{ "brandName":$("#brandName").val()}, function(dataFromServer){
+
+	       		 var data = new google.visualization.DataTable();
+	       	     data.addColumn('string', 'Store Name');
+	        	     data.addColumn('number', 'Qty');
+	              data.addRows(dataFromServer);
+	       		  console.log(dataFromServer);
+	       		  //data.addRows(dataFromServer);
+	       		  var options = {
+	       		            title: 'Stock in Each Stores',
+	       		            legend: { position: 'none' },
+	       		          };
+	       		   var chart = new google.visualization.ColumnChart(document.getElementById('stockReport_div'));
 	       		   chart.draw(data, options);
 	       	  });
 
@@ -118,40 +133,14 @@
 					Week :- <input type="text" id="weekid" name="month"></input> 
   					<input type="submit" id="loadDataWeekly" value="Submit"></input>
 					<div id="weeklySalesReport_div" style="width: 400; height: 300"></div>
-				</div>
-
-				<div>
-					<h2>Tables section</h2>
-					<div class="dataTables_wrapper">
-						<table id="example" class="display dataTable" cellspacing="0"
-							width="100%">
-							<thead>
-							<tr>
-								<th>Order Id</th>
-								<th>Item Id</th>
-								<th>Product Name</th>
-								<th>Cost Price</th>								
-								<th>Selling Price</th>
-							</tr>
-						</thead>
-
-						<tfoot>
-							<tr>
-								<th>Order Id</th>
-								<th>Item Id</th>
-								<th>Product Name</th>
-								<th>Cost Price</th>								
-								<th>Selling Price</th>
-							</tr>
-						</tfoot>
-						</table>
-					</div>
+					
+					<h2> Stores Containing Stock of Your Brand</h2>
+					Brand Name : <input type="text" id="brandName" name="brandName"></input>
+					<input type="submit" id="loadDataStock" value="Submit"></input>	
+					<div id="stockReport_div" style="width: 400; height: 300"></div>
 				</div>
 			</div>
 			<div class="center_content"></div>
-
-
-
 			<div class="clear"></div>
 			<!--end of center_content-->
 
